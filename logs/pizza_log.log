@@ -1,0 +1,2 @@
+2023-10-09 15:59:45,858 [http-nio-8080-exec-2] INFO  com.myapp.controller.PizzaController.loggerFile ==> Pizza created with id= ZA021 
+2023-10-09 15:59:46,285 [http-nio-8080-exec-1] INFO  com.myapp.controller.PizzaController.loggerFile ==> Pizza with id=ZA008 updated to new details : Pizza(pizzaId=ZA008, name=myNameeeeeeeeeee, description=Classic cheese and tomato pizza, type=Veg, imageUrl=https://tinyurl.com/pizza-002, priceRegularSize=15000, priceMediumSize=25000, priceLargeSize=99999) 

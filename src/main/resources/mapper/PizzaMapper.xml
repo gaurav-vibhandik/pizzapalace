@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myapp.repository.PizzaRepository" >
+
+    <resultMap type="pizza" id="pizzaResult">
+        <id property="pizzaId"  column="pizza_id"  />
+        <result property="name" column="name"  />
+        <result property="description" column="description" />
+        <result property="type" column="type" />
+        <result property="imageUrl" column="image_url" />
+        <result property="priceRegularSize" column="price_regular_size" />
+        <result property="priceMediumSize" column="price_medium_size" />
+        <result property="priceLargeSize" column="price_large_size" />
+    </resultMap>
+
+    <insert id="addNewPizza" useGeneratedKeys="true" keyColumn="pizza_id" keyProperty="pizzaId">
+        INSERT INTO pizza (name, description, type, image_url, price_regular_size, price_medium_size, price_large_size)
+        VALUES (#{p.name}, #{p.description}, #{p.type}, #{p.imageUrl}, #{p.priceRegularSize}, #{p.priceMediumSize},
+        #{p.priceLargeSize})
+    </insert>
+
+    <select id="getAllPizzas" resultMap="pizzaResult">
+        SELECT * FROM pizza
+    </select>
+
+    <select id="fetchPizzaDetailsById" parameterType="java.lang.String" resultMap="pizzaResult">
+        SELECT * FROM pizza where pizza_id= #{pId}
+    </select>
+
+    <select id="fetchAllPizzaDetails" resultMap="pizzaResult">
+        SELECT * FROM pizza
+    </select>
+
+    <update id="updatePizzaDetailsById" parameterType="map">
+        UPDATE pizza
+        <set>
+            <if test="p.name != null">name = #{p.name},</if>
+            <if test="p.description != null">description = #{p.description},</if>
+            <if test="p.type != null">type = #{p.type},</if>
+            <if test="p.imageUrl != null">image_url = #{p.imageUrl},</if>
+            <if test="p.priceRegularSize &gt; 0">price_regular_size = #{p.priceRegularSize},</if>
+            <if test="p.priceMediumSize &gt; 0">price_medium_size = #{p.priceMediumSize},</if>
+            <if test="p.priceLargeSize &gt; 0">price_large_size = #{p.priceLargeSize},</if>
+        </set>
+        WHERE pizza_id=#{pizzaId}
+    </update>
+
+
+    <delete id="deletePizzaDetailsById">
+        DELETE FROM pizza WHERE pizza_id= #{pId}
+    </delete>
+</mapper>
