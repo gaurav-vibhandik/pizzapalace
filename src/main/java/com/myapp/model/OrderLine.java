@@ -2,6 +2,9 @@ package com.myapp.model;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.springframework.lang.Nullable;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,6 +23,15 @@ public class OrderLine {
     private int quantity;
     @NotNull
     private int totalPrice;
+
+ /*   @NotNull
+    private String crustId ;
+
+    @Nullable
+    private List<Topping> toppings ;
+
+    @Nullable
+    private boolean extraCheese ;*/
 
 
 }
