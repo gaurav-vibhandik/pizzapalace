@@ -279,8 +279,8 @@
                     pizza_size VARCHAR(7) DEFAULT 'REGULAR',
                     price FLOAT DEFAULT 150,
                     CONSTRAINT compPK_pizzaPrice PRIMARY KEY(pizza_id,crust_id,pizza_size),
-                    CONSTRAINT fk_pizzaPrice_pizzaId FOREIGN KEY (pizza_id) REFERENCES pizza(pizza_id),
-                    CONSTRAINT fk_pizzaPrice_crustId FOREIGN KEY (crust_id) REFERENCES crust(crust_id)
+                    CONSTRAINT fk_pizzaPrice_pizzaId FOREIGN KEY (pizza_id) REFERENCES pizza(pizza_id) ON UPDATE CASCADE ON DELETE CASCADE,
+                    CONSTRAINT fk_pizzaPrice_crustId FOREIGN KEY (crust_id) REFERENCES crust(crust_id) ON UPDATE CASCADE ON DELETE CASCADE
                     );
 
 
@@ -292,6 +292,6 @@
                     order_line_id CHAR(5) ,
                     topping_id CHAR(6) ,
                     CONSTRAINT compPK_olTopping PRIMARY KEY(order_line_id,topping_id),
-                    CONSTRAINT fk_olTopping_orderLineId FOREIGN KEY (order_line_id) REFERENCES order_line(order_line_id),
-                    CONSTRAINT fk_olTopping_toppingId FOREIGN KEY (topping_id) REFERENCES topping(topping_id)
+                    CONSTRAINT fk_olTopping_orderLineId FOREIGN KEY (order_line_id) REFERENCES order_line(order_line_id) ON UPDATE CASCADE ON DELETE CASCADE,
+                    CONSTRAINT fk_olTopping_toppingId FOREIGN KEY (topping_id) REFERENCES topping(topping_id) ON UPDATE CASCADE ON DELETE CASCADE
                     );
