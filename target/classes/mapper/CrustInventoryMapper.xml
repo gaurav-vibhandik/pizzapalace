@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myapp.repository.CrustInventoryRepository" >
+
+    <resultMap type="crustInventory" id="crustInventoryResult">
+        <id property="crustId"  column="crust_id"  />
+        <result property="crustSize" column="crust_size"/>
+        <result property="quantity" column="quantity" />
+    </resultMap>
+
+
+    <select id="getCrustInventoryDetails" resultMap="crustInventoryResult">
+        SELECT * FROM crust_inventory
+    </select>
+
+</mapper>
