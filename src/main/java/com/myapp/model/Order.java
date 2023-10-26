@@ -25,7 +25,7 @@ public class Order {
     private String status ;
     @NotNull(message = "non-zero amount must be mentioned")
     private int totalAmount;
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime orderDateTime;
     @NotNull(message = "delivery address must be mentioned")
     private String deliveryAddress;
