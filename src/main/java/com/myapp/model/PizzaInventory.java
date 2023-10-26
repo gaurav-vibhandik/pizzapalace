@@ -1,5 +1,6 @@
 package com.myapp.model;
 
+import com.myapp.model.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,8 +10,13 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Crust {
+public class PizzaInventory {
 
-    private String crustId ;
-    private CrustType crust;
+    private String pizzaId;
+
+    private Size pizzaSize;
+    private int quantity;
+
+
+
 }

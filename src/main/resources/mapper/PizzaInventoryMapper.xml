@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myapp.repository.PizzaInventoryRepository" >
+
+    <resultMap type="pizzaInventory" id="pizzaInventoryResult">
+        <id property="pizzaId"  column="pizza_id"  />
+        <result property="pizzaSize" column="pizza_size"/>
+        <result property="quantity" column="quantity" />
+    </resultMap>
+
+
+    <select id="getPizzaInventoryDetails" resultMap="pizzaInventoryResult">
+        SELECT * FROM pizza_inventory
+    </select>
+
+</mapper>

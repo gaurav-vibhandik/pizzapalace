@@ -9,8 +9,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Crust {
+public class PizzaPrice {
 
-    private String crustId ;
-    private CrustType crust;
+    private String pizzaId ;
+    private String crustId;
+    private Size pizzaSize;
+    private Float price ;
 }

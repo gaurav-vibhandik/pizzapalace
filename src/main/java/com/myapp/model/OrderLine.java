@@ -21,17 +21,17 @@ public class OrderLine {
     private String size;
     @NotNull
     private int quantity;
-    @NotNull
-    private int totalPrice;
 
- /*   @NotNull
+    @NotNull
     private String crustId ;
 
     @Nullable
-    private List<Topping> toppings ;
+    private boolean extraCheese ;
 
     @Nullable
-    private boolean extraCheese ;*/
+    private List<String> toppingList ;
 
+    @NotNull
+    private int totalPrice;
 
 }

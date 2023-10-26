@@ -10,15 +10,11 @@
         <result property="description" column="description" />
         <result property="type" column="type" />
         <result property="imageUrl" column="image_url" />
-        <result property="priceRegularSize" column="price_regular_size" />
-        <result property="priceMediumSize" column="price_medium_size" />
-        <result property="priceLargeSize" column="price_large_size" />
     </resultMap>
 
     <insert id="addNewPizza" useGeneratedKeys="true" keyColumn="pizza_id" keyProperty="pizzaId">
-        INSERT INTO pizza (name, description, type, image_url, price_regular_size, price_medium_size, price_large_size)
-        VALUES (#{p.name}, #{p.description}, #{p.type}, #{p.imageUrl}, #{p.priceRegularSize}, #{p.priceMediumSize},
-        #{p.priceLargeSize})
+        INSERT INTO pizza (name, description, type, image_url)
+        VALUES (#{p.name}, #{p.description}, #{p.type}, #{p.imageUrl})
     </insert>
 
     <select id="getAllPizzas" resultMap="pizzaResult">
@@ -40,9 +36,6 @@
             <if test="p.description != null">description = #{p.description},</if>
             <if test="p.type != null">type = #{p.type},</if>
             <if test="p.imageUrl != null">image_url = #{p.imageUrl},</if>
-            <if test="p.priceRegularSize &gt; 0">price_regular_size = #{p.priceRegularSize},</if>
-            <if test="p.priceMediumSize &gt; 0">price_medium_size = #{p.priceMediumSize},</if>
-            <if test="p.priceLargeSize &gt; 0">price_large_size = #{p.priceLargeSize},</if>
         </set>
         WHERE pizza_id=#{pizzaId}
     </update>

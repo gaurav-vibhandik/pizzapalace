@@ -9,8 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Crust {
-
-    private String crustId ;
-    private CrustType crust;
+public class OrderLineTopping {
+    private String orderLineId ;
+    private String toppingId;
 }

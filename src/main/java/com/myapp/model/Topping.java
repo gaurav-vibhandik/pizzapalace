@@ -12,10 +12,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Topping {
 
-private String tpId;
+    private String toppingId;
     private String name	;
     private String type;
     private Integer price;
-    private Integer availableQty;
-
+    private Integer quantity;
 }
