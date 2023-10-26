@@ -17,15 +17,26 @@ public class OrderLineServiceImpl implements OrderLineService {
     @Autowired
     private OrderLineRepository olRepo;
 
+    @Autowired OrderLineToppingService olToppingService;
+
     //===============================================================================================
     @Override
     public void createNewOrderLine(OrderLine orderLine) {
+
         olRepo.createNewOrderLine(orderLine);
+        olToppingService.insertToppingsForGivenOrderLineId(orderLine);
+
     }
 
     @Override
     public List<OrderLine> fetchOrderLinesByOrderId(String oId) {
-        return olRepo.fetchOrderLinesByOrderId(oId);
+
+        List<OrderLine> orderLineList = olRepo.fetchOrderLinesByOrderId(oId);
+        for(OrderLine ol : orderLineList) {
+            List<String> toppingListForGivenOrderLine = olToppingService.getToppingsForGivenOrderLineId(ol.getOrderLineId());
+            ol.setToppingList(toppingListForGivenOrderLine);
+        }
+        return orderLineList;
     }
 
     @Override

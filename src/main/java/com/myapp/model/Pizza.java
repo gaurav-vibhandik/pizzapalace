@@ -17,11 +17,5 @@ public class Pizza {
     private String description;
     private String type;
     private String imageUrl;
-    @NotNull
-    private int priceRegularSize;
-    @NotNull
-    private int priceMediumSize;
-    @NotNull
-    private int priceLargeSize;
 
 }

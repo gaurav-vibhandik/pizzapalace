@@ -33,4 +33,7 @@ public class Order {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<OrderLine> orderLines = new ArrayList<>();
 
+//    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+//    private List<Side> sides = new ArrayList<>();
+
 }

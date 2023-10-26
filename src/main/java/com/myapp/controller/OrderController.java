@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class OrderController {
 
     @Autowired
@@ -35,7 +36,7 @@ public class OrderController {
         orderService.createNewOrder(receivedOrder) ;
         //For receiving created order along with its orderLines
         Order created = orderService.fetchOrderDetailsById(receivedOrder.getOrderId());
-        created.setOrderLines(olService.fetchOrderLinesByOrderId(receivedOrder.getOrderId()));
+//        created.setOrderLines(olService.fetchOrderLinesByOrderId(receivedOrder.getOrderId()));
         SuccessResponseDto resp = new SuccessResponseDto();
         resp.setSuccess(true);
         resp.setMessage("Successfully created Order");
@@ -48,6 +49,7 @@ public class OrderController {
     @GetMapping("/orders/{orderId}")
     public ResponseEntity<?> fetchOrderDetailsByOrderId(@PathVariable  String orderId){
         Order fetched =  orderService.fetchOrderDetailsById(orderId);
+        fetched.setOrderLines(olService.fetchOrderLinesByOrderId(orderId));
         SuccessResponseDto resp = new SuccessResponseDto();
         resp.setSuccess(true);
         resp.setMessage("Order data found");
@@ -59,6 +61,9 @@ public class OrderController {
     @GetMapping("/orders")
     public ResponseEntity<?> fetchAllOrderDetails(){
         List<Order> fetchedOrderList = orderService.fetchAllOrderDetails();
+        for(Order fetchedOrder : fetchedOrderList){
+            fetchedOrder.setOrderLines(olService.fetchOrderLinesByOrderId(fetchedOrder.getOrderId()));
+        }
         SuccessResponseDto resp = new SuccessResponseDto();
         resp.setSuccess(true);
         resp.setMessage("Successfully fetched all Order data");

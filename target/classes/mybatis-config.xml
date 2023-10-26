@@ -4,6 +4,9 @@
         "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
+<!--    <typeHandlers>-->
+<!--        <typeHandler  handler="com.myapp.handlers.CrustTypeEnumHandler" />-->
+<!--    </typeHandlers>-->
 
     <typeAliases>
         <!--<typeAlias type="com.myapp.model.Pizza" alias="pizza"/>

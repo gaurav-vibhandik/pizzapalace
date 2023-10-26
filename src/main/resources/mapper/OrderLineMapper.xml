@@ -11,12 +11,15 @@
         <result property="pizzaId" column="pizza_id" />
         <result property="size" column="size" />
         <result property="quantity" column="quantity"/>
+        <result property="crustId" column="crust_id"/>
+        <result property="extraCheese" column="extra_cheese"/>
         <result property="totalPrice" column="total_price"/>
+
     </resultMap>
 
     <insert id="createNewOrderLine" parameterType="com.myapp.model.OrderLine" keyProperty="orderLineId" useGeneratedKeys="true" >
-        INSERT INTO order_line (order_id, pizza_id, size, quantity, total_price)
-        VALUES(#{ol.orderId},#{ol.pizzaId},#{ol.size},#{ol.quantity},#{ol.totalPrice})
+        INSERT INTO order_line (order_id, pizza_id, size, quantity, crust_id, extra_cheese, total_price)
+        VALUES(#{ol.orderId},#{ol.pizzaId},#{ol.size},#{ol.quantity},#{ol.crustId},#{ol.extraCheese},#{ol.totalPrice})
     </insert>
 
     <select id="fetchOrderLineById"  resultMap="orderLineResult">
@@ -33,12 +36,13 @@
 
     <update id="updateOrderLine">
         UPDATE order_line
-        <set>
-            <if test="ol.pizzaId !=null"> pizza_id=#{ol.pizzaId},</if>
-            <if test="ol.size !=null"> size=#{ol.size} ,</if>
-            <if test="ol.quantity !=null"> quantity=#{ol.quantity} ,</if>
-            <if test="ol.totalPrice !=null"> total_price=#{ol.totalPrice}</if>
-        </set>
+        SET
+            pizza_id=#{ol.pizzaId},
+            size=#{ol.size},
+            quantity=#{ol.quantity},
+            crust_id=#{ol.crustId},
+            extra_cheese=#{ol.extraCheese},
+            total_price=#{ol.totalPrice}
         where order_line_id = #{olId}
     </update>
 

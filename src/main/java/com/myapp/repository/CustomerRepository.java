@@ -4,9 +4,11 @@ package com.myapp.repository;
 import com.myapp.model.Customer;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 @Mapper
 public interface CustomerRepository {
 

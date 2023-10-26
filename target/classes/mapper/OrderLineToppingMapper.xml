@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myapp.repository.OrderLineToppingRepository" >
+
+
+    <resultMap id="orderLineToppingResult" type="java.lang.String" >
+        <id property="toppingId" column="topping_id" />
+    </resultMap>
+
+
+    <insert id="insertToppingsForGivenOrderLineId" parameterType="orderLine">
+        INSERT INTO ol_topping (order_line_id, topping_id)
+        VALUES
+        <foreach collection="ol.toppingList" item="toppingId" separator=",">
+            (#{ol.orderLineId}, #{toppingId})
+        </foreach>
+    </insert>
+
+
+    <select id="getToppingsForGivenOrderLineId"  resultMap="orderLineToppingResult">
+        SELECT topping_id FROM ol_topping where order_line_id= #{olId}
+    </select>
+
+    <delete id="deleteToppingsByOrderLineId">
+        DELETE FROM ol_topping where order_line_id = #{olId}
+    </delete>
+
+
+
+
+</mapper>

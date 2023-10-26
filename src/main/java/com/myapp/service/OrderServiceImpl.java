@@ -3,6 +3,7 @@ package com.myapp.service;
 import com.myapp.exception.CustomException;
 import com.myapp.model.Order;
 import com.myapp.model.OrderLine;
+import com.myapp.model.OrderLineTopping;
 import com.myapp.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -20,6 +21,8 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepo ;
     @Autowired
     private OrderLineService olService ;
+
+
     //=========================================================================================================
     @Override
     @Transactional(rollbackFor = {DataAccessException.class})
@@ -78,6 +81,7 @@ public class OrderServiceImpl implements OrderService {
             }
             //Dropping previous orderLines associated with current order
             olService.deleteOrderLineByOrderId(oId);
+            //it will also drop associated olToppings due to CASCADE ON DELETE on fk_orderLine_id
             //reassigning new(same or added or removed) orderLines to current order
             List<OrderLine> receivedOrderLines =  receivedOrder.getOrderLines();
             for(OrderLine ol : receivedOrderLines){
