@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myapp.repository.OrderLineRepository" >
+
+
+    <resultMap id="orderLineResult" type="com.myapp.model.OrderLine" >
+        <id property="orderLineId" column="order_line_id" />
+        <result property="orderId" column="order_id" />
+        <result property="pizzaId" column="pizza_id" />
+        <result property="size" column="size" />
+        <result property="quantity" column="quantity"/>
+        <result property="totalPrice" column="total_price"/>
+    </resultMap>
+
+    <insert id="createNewOrderLine" parameterType="com.myapp.model.OrderLine" keyProperty="orderLineId" useGeneratedKeys="true" >
+        INSERT INTO order_line (order_id, pizza_id, size, quantity, total_price)
+        VALUES(#{ol.orderId},#{ol.pizzaId},#{ol.size},#{ol.quantity},#{ol.totalPrice})
+    </insert>
+
+    <select id="fetchOrderLineById"  resultMap="orderLineResult">
+        SELECT * FROM order_line where order_line_id= #{olId}
+    </select>
+
+    <select id="fetchOrderLinesByOrderId"  resultMap="orderLineResult">
+        SELECT * FROM order_line where order_id= #{oId}
+    </select>
+
+    <select id="fetchAllOrderLines"  resultMap="orderLineResult">
+        SELECT * FROM order_line
+    </select>
+
+    <update id="updateOrderLine">
+        UPDATE order_line
+        <set>
+            <if test="ol.pizzaId !=null"> pizza_id=#{ol.pizzaId},</if>
+            <if test="ol.size !=null"> size=#{ol.size} ,</if>
+            <if test="ol.quantity !=null"> quantity=#{ol.quantity} ,</if>
+            <if test="ol.totalPrice !=null"> total_price=#{ol.totalPrice}</if>
+        </set>
+        where order_line_id = #{olId}
+    </update>
+
+    <delete id="deleteOrderLine">
+        DELETE FROM order_line where order_line_id = #{olId}
+    </delete>
+
+    <delete id="deleteOrderLineByOrderId">
+        DELETE FROM order_line where order_id = #{oId}
+    </delete>
+
+
+
+</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myapp.repository.CustomerRepository" >
+
+    <resultMap type="customer" id="customerResult">
+        <id property="customerId"  column="customer_id"/>
+        <result property="firstName" column="first_name"  />
+        <result property="lastName" column="last_name" />
+        <result property="address" column="address" />
+        <result property="phoneNumber" column="phone_number" />
+        <result property="emailAddress" column="email_address" />
+    </resultMap>
+
+    <insert id="createNewCustomer" parameterType="customer" keyProperty="customerId" keyColumn="customer_id" useGeneratedKeys="true" >
+        INSERT INTO customer (first_name, last_name, address, phone_number,email_address)
+        VALUES (#{c.firstName},#{c.lastName},#{c.address},#{c.phoneNumber},#{c.emailAddress})
+    </insert>
+
+    <select id="fetchCustomerDetailsById"  resultMap="customerResult">
+        SELECT * FROM customer c
+        where c.customer_id= #{cId}
+    </select>
+
+    <select id="fetchAllCustomerDetails"  resultMap="customerResult">
+        SELECT * FROM customer
+    </select>
+
+    <update id="updateCustomerDetails">
+        UPDATE customer
+        <set>
+            <if test="c.firstName !=null">first_name=#{c.firstName },</if>
+            <if test="c.lastName !=null">last_name =#{c.lastName},</if>
+            <if test="c.address !=null">address=#{address},</if>
+            <if test="c.phoneNumber !=null">phone_number=#{c.phoneNumber},</if>
+            <if test="c.emailAddress !=null">email_address=#{c.emailAddress}</if>
+        </set>
+        WHERE customer_id= #{cId}
+    </update>
+
+    <delete id="deleteCustomerDetailsById">
+        DELETE FROM customer WHERE customer_id = #{cId}
+    </delete>
+
+</mapper>
