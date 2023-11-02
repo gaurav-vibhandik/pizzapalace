@@ -18,7 +18,7 @@
     </insert>
 
     <select id="getAllPizzas" resultMap="pizzaResult">
-        SELECT * FROM pizza
+        SELECT * FROM pizza order by pizza_id
     </select>
 
     <select id="fetchPizzaDetailsById" parameterType="java.lang.String" resultMap="pizzaResult">
@@ -26,7 +26,7 @@
     </select>
 
     <select id="fetchAllPizzaDetails" resultMap="pizzaResult">
-        SELECT * FROM pizza
+        SELECT * FROM pizza order by pizza_id
     </select>
 
     <update id="updatePizzaDetailsById" parameterType="map">

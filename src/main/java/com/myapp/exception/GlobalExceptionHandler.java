@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -18,13 +19,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleValidationException(MethodArgumentNotValidException ex , WebRequest request){
 
-        Map<String, String> errors = ex.getBindingResult().getFieldErrors().stream()
-                .collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));
-
+        Map<String, String> errorMap =  new HashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(fieldError ->{
+            errorMap.put(fieldError.getField() , fieldError.getDefaultMessage());
+        });
         ErrorResponseDto fresp = new ErrorResponseDto();
         fresp.setSuccess(false);
         fresp.setMessage("error occured while creating");
-        fresp.setError(new CustomErrorWithMap(HttpStatus.BAD_REQUEST.value(),errors) );
+        fresp.setError(new CustomErrorWithMap(HttpStatus.BAD_REQUEST.value(),errorMap) );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(fresp);
     }
 

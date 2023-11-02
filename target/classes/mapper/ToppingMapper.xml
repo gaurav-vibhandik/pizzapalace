@@ -16,6 +16,29 @@
     <select id="getToppingDetails" resultMap="toppingResult">
         SELECT * FROM topping
     </select>
+    <select id="getToppingDetailsById" resultMap="toppingResult">
+        SELECT * FROM topping where topping_id=#{tpId}
+    </select>
+
+    <insert id="createTopping" useGeneratedKeys="true" keyProperty="toppingId" keyColumn="topping_id" >
+        INSERT INTO topping (name,type,price,quantity)
+        VALUES (#{tp.name},#{tp.type},#{tp.price},#{tp.quantity})
+    </insert>
+
+    <update id="updateTopping">
+        UPDATE topping
+        SET
+        name = #{tp.name},
+        type=#{tp.type},
+        price=#{tp.price},
+        quantity=#{tp.quantity}
+        where topping_id=#{tpId}
+    </update>
+
+    <delete id="deleteTopping" >
+        DELETE FROM topping  where topping_id=#{tpId}
+    </delete>
+
 
 
     <!--  Add  INSERT , UPDATE , DELETE for Admin Part      -->

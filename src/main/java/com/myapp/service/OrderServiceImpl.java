@@ -29,6 +29,9 @@ public class OrderServiceImpl implements OrderService {
     public void createNewOrder(Order receivedOrder) {
         try{
             orderRepo.createNewOrder(receivedOrder);
+            if(receivedOrder.getOrderLines().isEmpty()){
+                throw new CustomException("in given order orderlines are not present","Failed to create new order", HttpStatus.NOT_FOUND) ;
+            }
             List<OrderLine> receivedOrderLines = receivedOrder.getOrderLines();
             //populating respective OrderLines for received Order
             for(OrderLine ol : receivedOrderLines){

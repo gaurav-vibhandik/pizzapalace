@@ -27,7 +27,7 @@
     </select>
 
     <select id="fetchOrderDetailsByCustomerId" resultMap="orderResult">
-        SELECT * FROM orders WHERE customer_id = #{customerId}
+        SELECT * FROM orders WHERE customer_id = #{customerId} order by order_id desc
     </select>
 
     <select id="fetchAllOrderDetails"  resultMap="orderResult">

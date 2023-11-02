@@ -30,6 +30,7 @@ public class Order {
     @NotNull(message = "delivery address must be mentioned")
     private String deliveryAddress;
 
+    @NotNull(message = "Orderlines are not present")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<OrderLine> orderLines = new ArrayList<>();
 

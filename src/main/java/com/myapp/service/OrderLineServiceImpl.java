@@ -24,8 +24,10 @@ public class OrderLineServiceImpl implements OrderLineService {
     public void createNewOrderLine(OrderLine orderLine) {
 
         olRepo.createNewOrderLine(orderLine);
-        olToppingService.insertToppingsForGivenOrderLineId(orderLine);
 
+        if(orderLine.getToppingList().size()> 0) {
+            olToppingService.insertToppingsForGivenOrderLineId(orderLine);
+        }
     }
 
     @Override
@@ -42,7 +44,8 @@ public class OrderLineServiceImpl implements OrderLineService {
     @Override
     public void deleteOrderLineByOrderId(String oId) {
         int deletedRows = olRepo.deleteOrderLineByOrderId(oId);
-        /*//No need to check for validation of oId because OLMethods will be always followed after OrderMethods in which we check validity of oId
+        /*//No need to check for validation of oId because OLMethods will be always followed
+        after OrderMethods in which we check validity of oId
         if(deletedRows == 0){
             throw new CustomException("Invalid order id","orderlines data not deleted", HttpStatus.NOT_FOUND) ;
         }*/
