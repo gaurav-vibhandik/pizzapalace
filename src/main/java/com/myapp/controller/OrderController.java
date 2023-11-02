@@ -58,6 +58,20 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(resp);
     }
 
+    @GetMapping("/orders/customer/{customerId}")
+    public ResponseEntity<?> fetchOrderDetailsByCustomerId(@PathVariable  String customerId){
+        List<Order> fetchedOrderList =  orderService.fetchOrderDetailsByCustomerId(customerId);
+        for(Order o : fetchedOrderList){
+            o.setOrderLines(olService.fetchOrderLinesByOrderId(o.getOrderId()));
+        }
+        SuccessResponseDto resp = new SuccessResponseDto();
+        resp.setSuccess(true);
+        resp.setMessage("Order data for given customerId found");
+        resp.setData(new GenericData<Order>());
+        resp.getData().setList(fetchedOrderList);
+        return ResponseEntity.status(HttpStatus.OK).body(resp);
+    }
+
     @GetMapping("/orders")
     public ResponseEntity<?> fetchAllOrderDetails(){
         List<Order> fetchedOrderList = orderService.fetchAllOrderDetails();
