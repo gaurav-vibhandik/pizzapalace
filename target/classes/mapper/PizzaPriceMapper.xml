@@ -14,5 +14,38 @@
     <select id="getPizzaPriceDetails" resultMap="pizzaPriceResult">
         SELECT * FROM pizza_price
     </select>
+    <select id="getPizzaPriceDetailsById" resultMap="pizzaPriceResult">
+        SELECT * FROM pizza_price where id=#{id}
+    </select>
 
+    <insert id="createPizzaPrice" keyProperty="id" useGeneratedKeys="true" >
+            INSERT INTO pizza_price (pizza_id,crust_id,pizza_size,price)
+            VALUES (#{pp.pizzaId},#{pp.crustId},#{pp.pizzaSize},#{pp.price})
+    </insert>
+
+    <update id="updatePizzaPrice">
+        UPDATE pizza_price
+        SET
+        pizza_id=#{pp.pizzaId},
+        crust_id=#{pp.crustId},
+        pizza_size=#{pp.pizzaSize},
+        price=#{pp.price}
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deletePizzaPrice">
+        DELETE FROM pizza_price WHERE id=#{id}
+    </delete>
 </mapper>
+
+
+<!--
+    int createPizzaPrice(@Param("pizzaPrice")PizzaPrice pizzaPrice);
+
+    int updatePizzaPrice( @Param("id") Integer id,@Param("pizzaPrice")PizzaPrice pizzaPrice);
+    int deletePizzaPrice(@Param("id")Integer id);
+    List<PizzaPrice> getPizzaPriceDetails();
+
+    PizzaPrice getPizzaPriceDetailsById( @Param("id") Integer id);
+
+-->

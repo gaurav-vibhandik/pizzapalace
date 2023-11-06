@@ -8,7 +8,8 @@
                 last_name VARCHAR(30),
                 address VARCHAR(255),
                 phone_number VARCHAR(20),
-                email_address VARCHAR(70)
+                email_address VARCHAR(70),
+                CONSTRAINT uk_customer_emailAddress UNIQUE(email_address)
                 ) ;
 
                         DROP SEQUENCE IF EXISTS seq_customer_id;
@@ -40,7 +41,8 @@
                 name VARCHAR(50) NOT NULL,
                 description VARCHAR(255),
                 type VARCHAR(10) DEFAULT 'VEG',
-                image_url VARCHAR(255)
+                image_url VARCHAR(255),
+                CONSTRAINT uk_pizza_nameAndType UNIQUE(name,type)
             );
 
                     DROP SEQUENCE IF EXISTS seq_pizza_id;
@@ -94,6 +96,38 @@
                     FOR EACH ROW
                     EXECUTE FUNCTION set_order_id();
 
+-- creating Crust Table
+                DROP TABLE IF EXISTS crust cascade ;
+                CREATE TABLE crust(
+                crust_id CHAR(4) PRIMARY KEY,
+                crust VARCHAR(20) UNIQUE
+
+                ) ;
+
+                        DROP SEQUENCE IF EXISTS seq_crust_id;
+                        CREATE SEQUENCE seq_crust_id
+                                START 1
+                                INCREMENT 1 ;
+
+                        CREATE OR REPLACE FUNCTION set_crust_id()
+                        RETURNS TRIGGER AS
+                        $$
+                        BEGIN
+                            NEW.crust_id := 'CR' || lpad(nextval('seq_crust_id')::TEXT, 2, '0');
+                            RETURN NEW;
+                        END;
+                        $$ LANGUAGE plpgsql;
+
+
+                        DROP TRIGGER IF EXISTS set_crust_id_trigger on crust;
+						CREATE TRIGGER set_crust_id_trigger
+                        BEFORE INSERT ON crust
+                        FOR EACH ROW
+                        EXECUTE FUNCTION set_crust_id();
+
+
+
+-- ====================================
 
 
 
@@ -138,44 +172,13 @@
 
 -- ==================================================================================
 
--- creating Crust Table
-                DROP TABLE IF EXISTS crust cascade ;
-                CREATE TABLE crust(
-                crust_id CHAR(4) PRIMARY KEY,
-                crust VARCHAR(20) UNIQUE
-                ) ;
-
-                        DROP SEQUENCE IF EXISTS seq_crust_id;
-                        CREATE SEQUENCE seq_crust_id
-                                START 1
-                                INCREMENT 1 ;
-
-                        CREATE OR REPLACE FUNCTION set_crust_id()
-                        RETURNS TRIGGER AS
-                        $$
-                        BEGIN
-                            NEW.crust_id := 'CR' || lpad(nextval('seq_crust_id')::TEXT, 2, '0');
-                            RETURN NEW;
-                        END;
-                        $$ LANGUAGE plpgsql;
-
-
-                        DROP TRIGGER IF EXISTS set_crust_id_trigger on crust;
-						CREATE TRIGGER set_crust_id_trigger
-                        BEFORE INSERT ON crust
-                        FOR EACH ROW
-                        EXECUTE FUNCTION set_crust_id();
-
-
-
--- ====================================
 
 -- Creating Topping table
 
                 DROP TABLE IF EXISTS topping cascade ;
                 CREATE TABLE topping(
                 topping_id CHAR(6) PRIMARY KEY,
-                name VARCHAR(20) ,
+                name VARCHAR(20) UNIQUE ,
                 type VARCHAR(10),
                 price FLOAT(2) DEFAULT 50,
                 quantity INTEGER DEFAULT 100
@@ -209,7 +212,7 @@
                 DROP TABLE IF EXISTS side cascade ;
                 CREATE TABLE side(
                 side_id CHAR(6) PRIMARY KEY,
-                name VARCHAR(20) ,
+                name VARCHAR(20) UNIQUE ,
                 price FLOAT(2) DEFAULT 50,
                 quantity INTEGER DEFAULT 100
                 ) ;
@@ -274,11 +277,12 @@
 
                     DROP TABLE IF EXISTS pizza_price cascade ;
                     CREATE TABLE pizza_price(
+                    id serial primary key,
                     pizza_id CHAR(5) ,
                     crust_id CHAR(4) ,
                     pizza_size VARCHAR(7) DEFAULT 'REGULAR',
                     price FLOAT DEFAULT 150,
-                    CONSTRAINT compPK_pizzaPrice PRIMARY KEY(pizza_id,crust_id,pizza_size),
+                    CONSTRAINT uk_pizzaPrice_pizzaIdAndCrustIdAndSize UNIQUE(pizza_id,crust_id,pizza_size),
                     CONSTRAINT fk_pizzaPrice_pizzaId FOREIGN KEY (pizza_id) REFERENCES pizza(pizza_id) ON UPDATE CASCADE ON DELETE CASCADE,
                     CONSTRAINT fk_pizzaPrice_crustId FOREIGN KEY (crust_id) REFERENCES crust(crust_id) ON UPDATE CASCADE ON DELETE CASCADE
                     );

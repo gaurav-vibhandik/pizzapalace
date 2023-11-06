@@ -18,7 +18,7 @@ public class Pizza {
     @NotBlank(message = "Pizza name should not be empty")
     private String name;
     private String description;
-    private String type;
+    private PizzaType type;
     private String imageUrl;
 
 }
