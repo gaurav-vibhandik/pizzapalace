@@ -33,25 +33,25 @@ SELECT setval('seq_order_id', 1, false);
 -- Populating Pizza Table ;
 
         INSERT INTO pizza (name, description, type, image_url) VALUES ('Margherita', 'Classic tomato and cheese pizza', 'VEG', 'https://tinyurl.com/pizza-002');
-        INSERT INTO pizza (name, description, type, image_url) VALUES ('Pepperoni', 'Spicy pepperoni pizza', 'NON-VEG', 'https://tinyurl.com/pizza-002');
+        INSERT INTO pizza (name, description, type, image_url) VALUES ('Pepperoni', 'Spicy pepperoni pizza', 'NON_VEG', 'https://tinyurl.com/pizza-002');
         INSERT INTO pizza (name, description, type, image_url) VALUES ('Hawaiian', 'Pineapple and ham pizza', 'VEG', 'https://tinyurl.com/pizza-002');
-        INSERT INTO pizza (name, description, type, image_url) VALUES ('Supreme', 'Loaded with toppings', 'NON-VEG', 'https://tinyurl.com/pizza-002');
+        INSERT INTO pizza (name, description, type, image_url) VALUES ('Supreme', 'Loaded with toppings', 'NON_VEG', 'https://tinyurl.com/pizza-002');
         INSERT INTO pizza (name, description, type, image_url) VALUES ('Mushroom', 'Mushrooms and cheese', 'VEG', 'https://tinyurl.com/pizza-002');
-        INSERT INTO pizza (name, description, type, image_url) VALUES ('BBQ Chicken', 'Barbecue chicken goodness', 'NON-VEG', 'https://tinyurl.com/pizza-002');
+        INSERT INTO pizza (name, description, type, image_url) VALUES ('BBQ Chicken', 'Barbecue chicken goodness', 'NON_VEG', 'https://tinyurl.com/pizza-002');
         INSERT INTO pizza (name, description, type, image_url) VALUES ('Veggie Delight', 'Loaded with vegetables', 'VEG', 'https://tinyurl.com/pizza-002');
-        INSERT INTO pizza (name, description, type, image_url) VALUES ('Meat Lovers', 'For meat enthusiasts', 'NON-VEG', 'https://tinyurl.com/pizza-002');
+        INSERT INTO pizza (name, description, type, image_url) VALUES ('Meat Lovers', 'For meat enthusiasts', 'NON_VEG', 'https://tinyurl.com/pizza-002');
         INSERT INTO pizza (name, description, type, image_url) VALUES ('Four Cheese', 'A cheesy delight', 'VEG', 'https://tinyurl.com/pizza-002');
-        INSERT INTO pizza (name, description, type, image_url) VALUES ('Sausage and Pepper', 'Savory sausage and peppers', 'NON-VEG', 'https://tinyurl.com/pizza-002');
+        INSERT INTO pizza (name, description, type, image_url) VALUES ('Sausage and Pepper', 'Savory sausage and peppers', 'NON_VEG', 'https://tinyurl.com/pizza-002');
         INSERT INTO pizza (name, description, type, image_url) VALUES ('Vegetarian Supreme', 'Loaded veggie goodness', 'VEG', 'https://tinyurl.com/pizza-002');
-        INSERT INTO pizza (name, description, type, image_url) VALUES ('Bacon and Onion', 'Bacon and onions combo', 'NON-VEG', 'https://tinyurl.com/pizza-002');
-        INSERT INTO pizza (name, description, type, image_url) VALUES ('Pesto Chicken', 'Chicken with pesto sauce', 'NON-VEG', 'https://tinyurl.com/pizza-002');
+        INSERT INTO pizza (name, description, type, image_url) VALUES ('Bacon and Onion', 'Bacon and onions combo', 'NON_VEG', 'https://tinyurl.com/pizza-002');
+        INSERT INTO pizza (name, description, type, image_url) VALUES ('Pesto Chicken', 'Chicken with pesto sauce', 'NON_VEG', 'https://tinyurl.com/pizza-002');
         INSERT INTO pizza (name, description, type, image_url) VALUES ('Spinach and Feta', 'Spinach and feta cheese', 'VEG', 'https://tinyurl.com/pizza-002');
-        INSERT INTO pizza (name, description, type, image_url) VALUES ('Buffalo Chicken', 'Spicy buffalo chicken', 'NON-VEG', 'https://tinyurl.com/pizza-002');
+        INSERT INTO pizza (name, description, type, image_url) VALUES ('Buffalo Chicken', 'Spicy buffalo chicken', 'NON_VEG', 'https://tinyurl.com/pizza-002');
         INSERT INTO pizza (name, description, type, image_url) VALUES ('Pineapple Delight', 'Pineapple lovers special', 'VEG', 'https://tinyurl.com/pizza-002');
-        INSERT INTO pizza (name, description, type, image_url) VALUES ('Steak and Mushroom', 'Steak and mushrooms combo', 'NON-VEG', 'https://tinyurl.com/pizza-002');
+        INSERT INTO pizza (name, description, type, image_url) VALUES ('Steak and Mushroom', 'Steak and mushrooms combo', 'NON_VEG', 'https://tinyurl.com/pizza-002');
         INSERT INTO pizza (name, description, type, image_url) VALUES ('Garlic and Olive', 'Garlic and olives topping', 'VEG', 'https://tinyurl.com/pizza-002');
         INSERT INTO pizza (name, description, type, image_url) VALUES ('BBQ Veggie', 'Barbecue veggie delight', 'VEG', 'https://tinyurl.com/pizza-002');
-        INSERT INTO pizza (name, description, type, image_url) VALUES ('Sausage and Mushroom', 'Sausage and mushrooms combo', 'NON-VEG', 'https://tinyurl.com/pizza-002');
+        INSERT INTO pizza (name, description, type, image_url) VALUES ('Sausage and Mushroom', 'Sausage and mushrooms combo', 'NON_VEG', 'https://tinyurl.com/pizza-002');
 
 
 -- Populating Orders Table
@@ -82,9 +82,9 @@ INSERT INTO topping (topping_id, name, type, price, quantity) VALUES
   ('TP003', 'Paneer', 'VEG', 35, 80),
   ('TP004', 'Mushroom', 'VEG', 30, 80),
   ('TP005', 'FreshTomato', 'VEG', 10, 80),
-  ('TP006', 'ChickenTikka', 'NONVEG', 35, 80),
-  ('TP007', 'BarbequeChicken', 'NONVEG', 45, 80),
-  ('TP008', 'GrilledChicken', 'NONVEG', 40, 80);
+  ('TP006', 'ChickenTikka', 'NON_VEG', 35, 80),
+  ('TP007', 'BarbequeChicken', 'NON_VEG', 45, 80),
+  ('TP008', 'GrilledChicken', 'NON_VEG', 40, 80);
 
 
 -- ===========================================================
