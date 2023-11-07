@@ -25,6 +25,7 @@ public class PizzaPriceController {
     public ResponseEntity<?> createNewPizzaPrice(@RequestBody @Valid PizzaPrice receivedPizzaPrice){
 
         pizzaPriceService.createPizzaPrice(receivedPizzaPrice);
+
         SuccessResponseDto resp = new SuccessResponseDto();
         resp.setSuccess(true);
         resp.setMessage("Successfully created PizzaPrice");

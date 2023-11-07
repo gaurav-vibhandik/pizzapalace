@@ -177,12 +177,12 @@
 
                 DROP TABLE IF EXISTS topping cascade ;
                 CREATE TABLE topping(
-                topping_id CHAR(6) PRIMARY KEY,
+                topping_id CHAR(5) PRIMARY KEY,
                 name VARCHAR(20) UNIQUE ,
                 type VARCHAR(10),
-                price FLOAT(2) DEFAULT 50,
-                quantity INTEGER DEFAULT 100
-                ) ;
+                price FLOAT(2) ,
+                quantity INTEGER
+                );
 
                         DROP SEQUENCE IF EXISTS seq_topping_id;
                         CREATE SEQUENCE seq_topping_id
@@ -214,7 +214,8 @@
                 side_id CHAR(6) PRIMARY KEY,
                 name VARCHAR(20) UNIQUE ,
                 price FLOAT(2) DEFAULT 50,
-                quantity INTEGER DEFAULT 100
+                quantity INTEGER DEFAULT 100,
+
                 ) ;
 
                         DROP SEQUENCE IF EXISTS seq_side_id;
@@ -294,7 +295,7 @@
                     DROP TABLE IF EXISTS ol_topping cascade ;
                     CREATE TABLE ol_topping(
                     order_line_id CHAR(5) ,
-                    topping_id CHAR(6) ,
+                    topping_id CHAR(5) ,
                     CONSTRAINT compPK_olTopping PRIMARY KEY(order_line_id,topping_id),
                     CONSTRAINT fk_olTopping_orderLineId FOREIGN KEY (order_line_id) REFERENCES order_line(order_line_id) ON UPDATE CASCADE ON DELETE CASCADE,
                     CONSTRAINT fk_olTopping_toppingId FOREIGN KEY (topping_id) REFERENCES topping(topping_id) ON UPDATE CASCADE ON DELETE CASCADE

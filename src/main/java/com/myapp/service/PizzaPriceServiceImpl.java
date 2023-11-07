@@ -23,7 +23,7 @@ public class PizzaPriceServiceImpl implements PizzaPriceService {
         try{
             pizzaPriceRepo.createPizzaPrice(pizzaPrice);
         }catch (DataAccessException e){
-        throw new CustomException(e.getCause().getMessage(),"Failed to fetch pizzaPrice details", HttpStatus.NOT_FOUND) ;
+            throw new CustomException(e.getCause().getMessage(),"Failed to fetch pizzaPrice details", HttpStatus.NOT_FOUND) ;
     }
 
     }

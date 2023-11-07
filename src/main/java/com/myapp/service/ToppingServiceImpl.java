@@ -4,6 +4,7 @@ import com.myapp.exception.CustomException;
 import com.myapp.model.Topping;
 import com.myapp.repository.ToppingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -16,17 +17,25 @@ public class ToppingServiceImpl implements ToppingService {
     private ToppingRepository tpRepo ;
     @Override
     public void createTopping(Topping topping) {
-        tpRepo.createTopping(topping) ;
+
+        try{
+            tpRepo.createTopping(topping);
+        }catch(DataAccessException e){
+            throw new CustomException(e.getLocalizedMessage(),"Failed to create new topping",HttpStatus.BAD_REQUEST);
+        }
 
     }
 
     @Override
     public void updateTopping( String toppingId,Topping topping) {
-        int count = tpRepo.updateTopping(toppingId , topping);
-        if(count!=1){
-            throw new CustomException("Invalid ToppingId","Failed to update topping", HttpStatus.BAD_REQUEST);
-        }
-
+        try {
+            int count = tpRepo.updateTopping(toppingId, topping);
+            if (count != 1) {
+                throw new CustomException("Invalid ToppingId", "Failed to update topping", HttpStatus.BAD_REQUEST);
+            }
+        }catch(DataAccessException e){
+            throw new CustomException(e.getLocalizedMessage(),"Failed to create new topping",HttpStatus.BAD_REQUEST);
+    }
     }
 
     @Override

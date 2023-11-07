@@ -11,8 +11,30 @@
         <result property="price" column="price" />
     </resultMap>
 
+    <insert id="createPizzaPrice" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO pizza_price (pizza_id,crust_id,pizza_size,price)
+        VALUES (#{pp.pizzaId},#{pp.crustId},#{pp.pizzaSize},#{pp.price})
+    </insert>
+
+    <update id="updatePizzaPrice" >
+        UPDATE pizza_price
+        SET pizza_id = #{pp.pizzaId},
+            crust_id= #{pp.crustId},
+            pizza_size= #{pp.pizzaSize},
+            price= #{pp.price}
+        WHERE id= #{pp.id}
+    </update>
+
+    <delete id="deletePizzaPrice">
+        DELETE FROM pizza_price where id=#{id}
+    </delete>
+
     <select id="getPizzaPriceDetails" resultMap="pizzaPriceResult">
         SELECT * FROM pizza_price
+    </select>
+
+    <select id="getPizzaPriceDetailsById" resultMap="pizzaPriceResult">
+        SELECT * FROM pizza_price where id=#{id}
     </select>
 
 </mapper>

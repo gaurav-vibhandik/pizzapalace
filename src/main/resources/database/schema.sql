@@ -295,7 +295,7 @@
                     DROP TABLE IF EXISTS ol_topping cascade ;
                     CREATE TABLE ol_topping(
                     order_line_id CHAR(5) ,
-                    topping_id CHAR(6) ,
+                    topping_id CHAR(5) ,
                     CONSTRAINT compPK_olTopping PRIMARY KEY(order_line_id,topping_id),
                     CONSTRAINT fk_olTopping_orderLineId FOREIGN KEY (order_line_id) REFERENCES order_line(order_line_id) ON UPDATE CASCADE ON DELETE CASCADE,
                     CONSTRAINT fk_olTopping_toppingId FOREIGN KEY (topping_id) REFERENCES topping(topping_id) ON UPDATE CASCADE ON DELETE CASCADE

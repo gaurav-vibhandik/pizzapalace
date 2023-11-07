@@ -34,9 +34,7 @@ public class OrderController {
     public ResponseEntity<?> createNewOrder(@RequestBody @Valid Order receivedOrder){
         //creating new order along with its associated orderLines
         orderService.createNewOrder(receivedOrder) ;
-        //For receiving created order along with its orderLines
         Order created = orderService.fetchOrderDetailsById(receivedOrder.getOrderId());
-//        created.setOrderLines(olService.fetchOrderLinesByOrderId(receivedOrder.getOrderId()));
         SuccessResponseDto resp = new SuccessResponseDto();
         resp.setSuccess(true);
         resp.setMessage("Successfully created Order");
