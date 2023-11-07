@@ -33,10 +33,15 @@ public class OrderServiceImpl implements OrderService {
                 throw new CustomException("in given order orderlines are not present","Failed to create new order", HttpStatus.NOT_FOUND) ;
             }
             List<OrderLine> receivedOrderLines = receivedOrder.getOrderLines();
-            //populating respective OrderLines for received Order
-            for(OrderLine ol : receivedOrderLines){
-                ol.setOrderId(receivedOrder.getOrderId());
-                olService.createNewOrderLine(ol);
+
+            if(!receivedOrderLines.isEmpty()){
+                //populating respective OrderLines for received Order
+                for (OrderLine ol : receivedOrderLines) {
+                    ol.setOrderId(receivedOrder.getOrderId());
+                    olService.createNewOrderLine(ol);
+                }
+            }else{
+                throw new CustomException("No orderLine data present in submitted order object","Failed to create new order", HttpStatus.NOT_FOUND) ;
             }
         //order has been created and its associated OrderLine details also created
         }catch (DataAccessException e){
@@ -76,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(rollbackFor = {DataAccessException.class , CustomException.class})
     public Order updateOrderDetails(String oId , Order receivedOrder) {
-    //consideration : From frontend we receive orderId and its respective orderLineIds also
+
         try{
             int rowsUpdated = orderRepo.updateOrderDetails(oId , receivedOrder);
             if(rowsUpdated != 1){

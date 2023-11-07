@@ -17,8 +17,10 @@ public class Pizza {
     private String pizzaId;
     @NotBlank(message = "Pizza name should not be empty")
     private String name;
+    @NotBlank(message = "Pizza description should not be empty")
     private String description;
     private PizzaType type;
+    @NotBlank(message = "Pizza imageUrl should not be empty")
     private String imageUrl;
 
 }

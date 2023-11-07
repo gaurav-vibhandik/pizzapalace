@@ -177,12 +177,12 @@
 
                 DROP TABLE IF EXISTS topping cascade ;
                 CREATE TABLE topping(
-                topping_id CHAR(6) PRIMARY KEY,
+                topping_id CHAR(5) PRIMARY KEY,
                 name VARCHAR(20) UNIQUE ,
                 type VARCHAR(10),
-                price FLOAT(2) DEFAULT 50,
-                quantity INTEGER DEFAULT 100
-                ) ;
+                price FLOAT(2) ,
+                quantity INTEGER
+                );
 
                         DROP SEQUENCE IF EXISTS seq_topping_id;
                         CREATE SEQUENCE seq_topping_id
@@ -214,7 +214,8 @@
                 side_id CHAR(6) PRIMARY KEY,
                 name VARCHAR(20) UNIQUE ,
                 price FLOAT(2) DEFAULT 50,
-                quantity INTEGER DEFAULT 100
+                quantity INTEGER DEFAULT 100,
+
                 ) ;
 
                         DROP SEQUENCE IF EXISTS seq_side_id;

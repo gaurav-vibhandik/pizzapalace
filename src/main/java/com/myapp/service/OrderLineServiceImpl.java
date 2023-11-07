@@ -24,19 +24,26 @@ public class OrderLineServiceImpl implements OrderLineService {
     public void createNewOrderLine(OrderLine orderLine) {
 
         olRepo.createNewOrderLine(orderLine);
-
+        //handling toppingList is empty
         if(orderLine.getToppingList().size()> 0) {
+            //if not empty , populate ol_topping table for given orderLineId
             olToppingService.insertToppingsForGivenOrderLineId(orderLine);
         }
+        //orderLine with or without toppings has been created
     }
 
     @Override
     public List<OrderLine> fetchOrderLinesByOrderId(String oId) {
+        List<OrderLine> orderLineList ;
+        try {
+            orderLineList = olRepo.fetchOrderLinesByOrderId(oId);
+            for (OrderLine ol : orderLineList) {
+                List<String> toppingListForGivenOrderLine = olToppingService.getToppingsForGivenOrderLineId(ol.getOrderLineId());
+                ol.setToppingList(toppingListForGivenOrderLine);
+            }
 
-        List<OrderLine> orderLineList = olRepo.fetchOrderLinesByOrderId(oId);
-        for(OrderLine ol : orderLineList) {
-            List<String> toppingListForGivenOrderLine = olToppingService.getToppingsForGivenOrderLineId(ol.getOrderLineId());
-            ol.setToppingList(toppingListForGivenOrderLine);
+        }catch(DataAccessException e){
+            throw new CustomException(e.getCause().getMessage(),"Failed to fetch orderLine details.Invalid orderId", HttpStatus.NOT_FOUND) ;
         }
         return orderLineList;
     }

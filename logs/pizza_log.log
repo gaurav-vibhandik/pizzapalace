@@ -83,3 +83,10 @@
 2023-11-06 23:20:38,336 [http-nio-8080-exec-10] INFO  com.myapp.controller.PizzaController.loggerFile ==> Pizza created with id= ZA025 
 2023-11-06 23:22:31,421 [http-nio-8080-exec-10] INFO  com.myapp.controller.PizzaController.loggerFile ==> Pizza created with id= ZA026 
 2023-11-07 00:02:45,312 [http-nio-8080-exec-6] INFO  com.myapp.controller.PizzaController.loggerFile ==> Pizza created with id= ZA029 
+2023-11-07 07:39:40,689 [http-nio-8080-exec-6] INFO  com.myapp.controller.PizzaController.loggerFile ==> Pizza with id=ZA029 has been deleted 
+2023-11-07 07:39:51,450 [http-nio-8080-exec-9] INFO  com.myapp.controller.PizzaController.loggerFile ==> Pizza with id=ZA026 has been deleted 
+2023-11-07 07:40:38,477 [http-nio-8080-exec-6] INFO  com.myapp.controller.PizzaController.loggerFile ==> Pizza with id=ZA025 updated to new details : Pizza(pizzaId=ZA025, name=yummy yummy, description=Classic chicken killed, type=NON_VEG, imageUrl=https://tinyurl.com/pizza-002) 
+2023-11-07 07:42:23,469 [http-nio-8080-exec-2] INFO  com.myapp.controller.PizzaController.loggerFile ==> Pizza created with id= ZA030 
+2023-11-07 07:43:47,747 [http-nio-8080-exec-4] INFO  com.myapp.controller.PizzaController.loggerFile ==> Pizza with id=ZA030 has been deleted 
+2023-11-07 10:27:30,510 [http-nio-8080-exec-6] INFO  com.myapp.controller.PizzaController.loggerFile ==> Pizza created with id= ZA031 
+2023-11-07 10:29:14,290 [http-nio-8080-exec-9] INFO  com.myapp.controller.PizzaController.loggerFile ==> Pizza with id=ZA025 has been deleted 
