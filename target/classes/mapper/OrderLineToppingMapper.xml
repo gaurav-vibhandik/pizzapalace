@@ -23,7 +23,7 @@
         SELECT topping_id FROM ol_topping where order_line_id= #{olId}
     </select>
 
-    <delete id="deleteToppingsByOrderLineId">
+    <delete id="deleteToppingsForGivenOrderLineId">
         DELETE FROM ol_topping where order_line_id = #{olId}
     </delete>
 

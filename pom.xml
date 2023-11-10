@@ -21,6 +21,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
@@ -55,13 +56,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- For adding DTO ModelMapper ======== -->
-		<dependency>
-			<groupId>org.modelmapper</groupId>
-			<artifactId>modelmapper</artifactId>
-			<version>3.1.1</version>
-		</dependency>
-
 		<!-- Spring Validation Annotations(using Hibernate Validator) =============================== -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -74,19 +68,10 @@
 			<version>3.0.2</version>
 		</dependency>
 		<!-- Logger =============================== -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-logging</artifactId>
-		</dependency>
-
-		<!-- For swagger ================= -->
-
-		<!--================================== -->
-
-
-
-
-
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-logging</artifactId>-->
+<!--		</dependency>-->
 	</dependencies>
 
 

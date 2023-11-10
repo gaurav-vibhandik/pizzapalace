@@ -31,6 +31,7 @@ public class CustomerServiceImpl implements  CustomerService {
 
     @Autowired
     private OrderRepository orderRepo ;
+    private Logger logger = LoggerFactory.getLogger("com.myapp.controller.CustomerController.file") ;
 
     //===========================================================================================================
 
@@ -40,6 +41,7 @@ public class CustomerServiceImpl implements  CustomerService {
         try{
         customerRepo.createNewCustomer(customer);
         }catch (DataAccessException e){
+            logger.error("Failed to create new customer due to error:\n{}",e.getCause().getMessage());
             throw new CustomException(e.getCause().getMessage(),"Failed to create new customer", HttpStatus.BAD_REQUEST) ;
         }
     }
@@ -57,7 +59,6 @@ public class CustomerServiceImpl implements  CustomerService {
     public List<Customer> fetchAllCustomerDetails() {
         List<Customer> fetchedList ;
         fetchedList = customerRepo.fetchAllCustomerDetails();
-        //throw new RuntimeException("asdasd"); //for simulating error in fetchAllCustomerDetails
         return fetchedList ;
     }
 
@@ -67,9 +68,11 @@ public class CustomerServiceImpl implements  CustomerService {
         try{
             int updatedRows = customerRepo.updateCustomerDetails(cId, c);
             if(updatedRows !=1){
+                logger.error("Failed to update invalid customerId={} ",cId);
                 throw new CustomException("Invalid customerId","Failed to Update Customer details",HttpStatus.BAD_REQUEST);
             }
         }catch (DataAccessException e){
+            logger.error("Failed to update customerId={} dur to error:\n{} ",cId,e.getCause().getMessage());
             throw new CustomException(e.getCause().getMessage(),"Failed to Update Customer details", HttpStatus.BAD_REQUEST) ;
         }
 
@@ -82,9 +85,11 @@ public class CustomerServiceImpl implements  CustomerService {
         try {
             int deleted = customerRepo.deleteCustomerDetailsById(cId);
             if (deleted != 1) {
+                logger.error("Failed to delete invalid customerId={} ",cId);
                 throw new CustomException("Invalid customerId", "Failed to Delete Customer details", HttpStatus.NOT_FOUND);
             }
         }catch (DataAccessException e){
+            logger.error("Failed to delete customerId={} due to error:\n{}",cId,e.getCause().getMessage());
             throw new CustomException(e.getCause().getMessage(),"Failed to Delete Customer details", HttpStatus.BAD_REQUEST) ;
         }
     }

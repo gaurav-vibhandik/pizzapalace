@@ -21,6 +21,7 @@ public class Customer {
     private String lastName;
     private String address;
     private String phoneNumber;
+    @NotBlank(message = "email is required")
     @Email(regexp = "^[a-zA-Z0-9._]+@[a-zA-Z0-9._]+\\.[a-zA-Z]{2,}$" ,message = "Email is empty or not valid.EmailName should not contain symbols other than . and _")
     private String emailAddress;
     @JsonInclude(JsonInclude.Include.NON_EMPTY)

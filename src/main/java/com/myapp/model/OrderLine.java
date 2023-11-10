@@ -1,8 +1,8 @@
 package com.myapp.model;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.*;
 import lombok.*;
-import org.springframework.lang.Nullable;
 
 import java.util.List;
 
@@ -13,25 +13,20 @@ import java.util.List;
 @ToString
 public class OrderLine {
     private String orderLineId;
-    @NotNull
+    @NotBlank(message = "orderId can not be empty")
     private String orderId;
-    @NotNull
+    @NotBlank(message = "pizzaId can not be empty")
     private String pizzaId;
-    @NotNull
+    @NotBlank(message = "size can not be empty")
     private String size;
-    @NotNull
+    @Positive(message = "Quantity can not be negative")
     private int quantity;
-
-    @NotNull
+    @NotBlank(message = "crustId can not be empty")
     private String crustId ;
-
-    @Nullable
     private boolean extraCheese ;
-
     @Nullable
     private List<String> toppingList ;
-
-    @NotNull
+    @Positive(message = "Price must be greater than zero")
     private int totalPrice;
 
 }

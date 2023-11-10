@@ -20,12 +20,12 @@ public interface OrderLineRepository {
 
     public List<OrderLine> fetchAllOrderLines();
 
-    public int updateOrderLine(@Param("olId") String olId, @Param("ol") OrderLine orderLine );
+    public int updateOrderLine(@Param("ol") OrderLine orderLine );
 
     public int deleteOrderLine(@Param("olId") String olId);
 
     public int deleteOrderLineByOrderId(@Param("oId") String oId);
 
 
-
+    int deleteOrderLineById(@Param("olId") String olId);
 }

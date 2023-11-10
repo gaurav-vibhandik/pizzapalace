@@ -3,15 +3,18 @@ package com.myapp.service;
 import com.myapp.exception.CustomException;
 import com.myapp.model.Order;
 import com.myapp.model.OrderLine;
-import com.myapp.model.OrderLineTopping;
 import com.myapp.repository.OrderRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -22,49 +25,56 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderLineService olService ;
 
+    private final Logger logger = LoggerFactory.getLogger("com.myapp.controller.OrderController.file") ;
+
 
     //=========================================================================================================
     @Override
-    @Transactional(rollbackFor = {DataAccessException.class})
+    @Transactional(rollbackFor = {CustomException.class})
     public void createNewOrder(Order receivedOrder) {
         try{
             orderRepo.createNewOrder(receivedOrder);
-            if(receivedOrder.getOrderLines().isEmpty()){
-                throw new CustomException("in given order orderlines are not present","Failed to create new order", HttpStatus.NOT_FOUND) ;
-            }
+            logger.debug("Order created in DB with orderId={}",receivedOrder.getOrderId());
+            logger.debug("Processing OL lines entry into database :");
             List<OrderLine> receivedOrderLines = receivedOrder.getOrderLines();
-
-            if(!receivedOrderLines.isEmpty()){
-                //populating respective OrderLines for received Order
-                for (OrderLine ol : receivedOrderLines) {
-                    ol.setOrderId(receivedOrder.getOrderId());
-                    olService.createNewOrderLine(ol);
-                }
-            }else{
-                throw new CustomException("No orderLine data present in submitted order object","Failed to create new order", HttpStatus.NOT_FOUND) ;
+            //populating respective OrderLines for received Order
+            for (OrderLine ol : receivedOrderLines) {
+                ol.setOrderId(receivedOrder.getOrderId());
+                olService.createNewOrderLine(ol);
             }
         //order has been created and its associated OrderLine details also created
         }catch (DataAccessException e){
-            throw new CustomException(e.getCause().getMessage(),"Failed to create new order", HttpStatus.NOT_FOUND) ;
+            logger.error("Failed to create order due to error:\n{}",e.getCause().getMessage());
+            throw new CustomException(e.getCause().getMessage(),"Failed to create new order", HttpStatus.BAD_REQUEST) ;
         }
     }
 
     @Override
     public Order fetchOrderDetailsById(String oId) {
-
-        Order fetched = orderRepo.fetchOrderDetailsById(oId) ;
-        if(fetched == null){
-            throw new CustomException("Invalid orderId" , "Failed to fetch order data" , HttpStatus.NOT_FOUND);
+        try {
+            Order fetched = orderRepo.fetchOrderDetailsById(oId);
+            if (fetched == null) {
+                throw new CustomException("Invalid orderId", "Failed to fetch order data", HttpStatus.NOT_FOUND);
+            }
+            List<OrderLine> orderLines = olService.fetchOrderLinesByOrderId(oId);
+            fetched.setOrderLines(orderLines);
+            return fetched;
+            }catch (DataAccessException e){
+                throw new CustomException(e.getCause().getMessage(),"Failed to fetch order data", HttpStatus.INTERNAL_SERVER_ERROR) ;
         }
-        List<OrderLine> orderLines = olService.fetchOrderLinesByOrderId(oId);
-        fetched.setOrderLines(orderLines);
-        return fetched;
-
     }
 
     @Override
     public List<Order> fetchOrderDetailsByCustomerId(String customerId) {
-        return orderRepo.fetchOrderDetailsByCustomerId(customerId) ;
+        try{
+            List<Order> fetchedOrders = orderRepo.fetchOrderDetailsByCustomerId(customerId);
+            if(fetchedOrders.isEmpty()){
+                throw new CustomException("invalid customer id","here",HttpStatus.BAD_REQUEST) ;
+            }
+            return fetchedOrders ;
+        }catch (DataAccessException e){
+            throw new CustomException(e.getCause().getMessage(),"Failed to fetch order data for given customer id", HttpStatus.INTERNAL_SERVER_ERROR) ;
+        }
     }
 
     @Override
@@ -78,42 +88,64 @@ public class OrderServiceImpl implements OrderService {
         return orderList ;
     }
 
+
     @Override
     @Transactional(rollbackFor = {DataAccessException.class , CustomException.class})
     public Order updateOrderDetails(String oId , Order receivedOrder) {
-
         try{
-            int rowsUpdated = orderRepo.updateOrderDetails(oId , receivedOrder);
-            if(rowsUpdated != 1){
-                throw  new CustomException("invalid orderId","Failed to update order",HttpStatus.BAD_REQUEST) ;
+            int updatedRows = orderRepo.updateOrderDetails(oId, receivedOrder);
+            if (updatedRows != 1) {
+                logger.error("Failed to update invalid orderId={}", oId);
+                throw new CustomException("Invalid orderId", "Failed to update order data", HttpStatus.BAD_REQUEST);
             }
-            //Dropping previous orderLines associated with current order
-            olService.deleteOrderLineByOrderId(oId);
-            //it will also drop associated olToppings due to CASCADE ON DELETE on fk_orderLine_id
-            //reassigning new(same or added or removed) orderLines to current order
-            List<OrderLine> receivedOrderLines =  receivedOrder.getOrderLines();
-            for(OrderLine ol : receivedOrderLines){
-                ol.setOrderId(oId);
-                olService.createNewOrderLine(ol);
+            logger.debug("orderId={} got updated in db", oId);
+            List<OrderLine> oldOlList = olService.fetchOrderLinesByOrderId(oId);
+            List<String> oldOlIdList =
+                    oldOlList.stream()
+                            .map(oldOrderLine -> oldOrderLine.getOrderLineId())
+                            .toList();
+            List<String> newOlIdList =
+                    receivedOrder.getOrderLines().stream()
+                            .map(OrderLine::getOrderLineId)
+                            .toList();
+
+            Map<String, OrderLine> newOrderLineMap = new HashMap<>();
+            for (OrderLine ol : receivedOrder.getOrderLines()) {
+                newOrderLineMap.put(ol.getOrderLineId(), ol);
             }
-            Order updated = orderRepo.fetchOrderDetailsById(oId);
-            return updated ;
+
+            for (String oldOlId : oldOlIdList) {
+                if (newOlIdList.contains(oldOlId)) {
+                    logger.debug("In Process: Updating orderLine for given orderId={}", oId);
+                    //received orderLineList has old Ol , so update it
+                    olService.updateOrderLine(newOrderLineMap.get(oldOlId));
+                } else {
+                    logger.debug("In Process: Deleting orderLine for given orderId={}", oId);
+                    //received orderLineList does not have old Ol , so delete it
+                    olService.deleteOrderLineById(oldOlId);
+                }
+            }
         }catch (DataAccessException e){
-            throw new CustomException(e.getCause().getMessage(),"Failed to update order details", HttpStatus.NOT_FOUND) ;
+            logger.error("Failed to update orderId={} due to error:\n{}",oId,e.getCause().getMessage());
+            throw new CustomException(e.getCause().getMessage(),"Failed to delete order", HttpStatus.NOT_FOUND) ;
         }
+        Order updatedOrder = orderRepo.fetchOrderDetailsById(receivedOrder.getOrderId());
+        return updatedOrder ;
 
     }
 
     @Override
-    @Transactional(rollbackFor = {DataAccessException.class , CustomException.class})
+    @Transactional(rollbackFor={CustomException.class})
     public void deleteOrderDetails(String oId) {
         try {
            int deleted = orderRepo.deleteOrderDetails(oId);
            //OrderLines depending upon current orderId will also be deleted due to "ON DELETE CASCADE" on FK of OrderLine db table
            if(deleted!=1){
+               logger.error("Failed to delete invalid orderId={}",oId);
                throw  new CustomException("invalid orderId","deletion failed",HttpStatus.NOT_FOUND) ;
            }
         }catch (DataAccessException e){
+            logger.error("Failed to delete orderId={} due to error:\n{}",oId,e.getCause().getMessage());
             throw new CustomException(e.getCause().getMessage(),"Failed to delete order", HttpStatus.NOT_FOUND) ;
         }
     }

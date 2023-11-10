@@ -43,7 +43,7 @@
             crust_id=#{ol.crustId},
             extra_cheese=#{ol.extraCheese},
             total_price=#{ol.totalPrice}
-        where order_line_id = #{olId}
+        where order_line_id = #{ol.orderLineId}
     </update>
 
     <delete id="deleteOrderLine">
@@ -52,6 +52,10 @@
 
     <delete id="deleteOrderLineByOrderId">
         DELETE FROM order_line where order_id = #{oId}
+    </delete>
+
+    <delete id="deleteOrderLineById">
+        DELETE FROM order_line where order_line_id = #{olId}
     </delete>
 
 

@@ -10,7 +10,6 @@
         <appender-ref ref="console" />
     </root>
 
-
     <!-- ========================/My custom colored Appender========================================= -->
     <appender name="myConsole" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -18,69 +17,109 @@
         </encoder>
     </appender>
 
+
 <!-- ========================CustomerControllerLogger========================================= -->
-    <appender name="customerFile" class="ch.qos.logback.core.FileAppender">
-        <file>logs/customer_log.log</file>
+    <appender name="customerFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/customer_log/customer_log.log</file>
         <encoder>
             <pattern>%date [%thread] %-5level %logger{35} - %msg%n</pattern>
         </encoder>
         <!-- ========================/Rolling Policy========================================= -->
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- Logback will create following pattern log files -->
-            <fileNamePattern>logs/customer_log.%d{yyyy-MM-dd_HH-mm-ss}.%i.log</fileNamePattern>
-            <!--Logback will retain log files for the last 7 days and delete older ones.-->
-            <maxHistory>7</maxHistory>
+            <!--<fileNamePattern>logs/customer_log/customer_log.%d{yyyy\-MM\-dd_HH\-mm\-ss}.%i.log</fileNamePattern>-->
+            <fileNamePattern>logs/customer_log/customer_log.%d{yyyy-MM-dd_HH}.%i.log</fileNamePattern>
+            <!--Logback will retain log files for the last "365 DAYS" and delete older ones.-->
+            <maxHistory>365</maxHistory>
             <!--Logback will keep log files whose total size does not exceed 100 megabytes.-->
-            <totalSizeCap>1MB</totalSizeCap>
+<!--            <totalSizeCap>1MB</totalSizeCap>-->
+            <maxFileSize>10KB</maxFileSize>
             <!--If set to true, Logback will clean up older log files when the total size exceeds the totalSizeCap.-->
-            <cleanHistoryOnOverflow>true</cleanHistoryOnOverflow>
+<!--            <cleanHistoryOnOverflow>true</cleanHistoryOnOverflow>-->
 
         </rollingPolicy>
     </appender>
 
-        <logger name="com.myapp.controller.CustomerController.file" level="INFO">
+        <logger name="com.myapp.controller.CustomerController.file" level="*">
             <appender-ref ref="customerFile"/>
         </logger>
 
 <!-- ========================/OrderControllerLogger========================================= -->
-    <appender name="ordersFile" class="ch.qos.logback.core.FileAppender">
-        <file>logs/orders_log.log</file>
+    <appender name="ordersFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/orders_log/orders_log.log</file>
         <encoder>
-            <pattern>%date [%thread] %-5level %logger{35} - %msg%n</pattern>
+<!--            <pattern>%date [%thread] %-5level %logger{35} - %msg%n</pattern>-->
+            <pattern>%date %-5level %logger{35} --- %msg%n</pattern>
         </encoder>
+        <!-- ========================/Rolling Policy========================================= -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- Logback will create following pattern log files -->
+            <fileNamePattern>logs/orders_log/orders_log.%d{yyyy-MM-dd_HH}.%i.log</fileNamePattern>
+            <!--Logback will retain log files for the last "1 DAYS" and delete older ones.-->
+            <maxHistory>1</maxHistory>
+            <maxFileSize>10MB</maxFileSize>
+            <!--Logback will keep log files whose total size does not exceed 20 megabytes.-->
+            <totalSizeCap>20MB</totalSizeCap>
+
+            <!--If set to true, Logback will clean up older log files when the total size exceeds the totalSizeCap.-->
+            <!--            <cleanHistoryOnOverflow>true</cleanHistoryOnOverflow>-->
+
+        </rollingPolicy>
     </appender>
 
-    <!--
-    Controller can have multiple loggers . use LoggerFactory.getLogger("following Name")
-    <logger name="com.myapp.controller.OrderController.console" level="INFO">
-        <appender-ref ref="myConsole"/>
-    </logger>-->
-    <logger name="com.myapp.controller.OrderController.file" level="INFO">
+    <logger name="com.myapp.controller.OrderController.file" level="*">
         <appender-ref ref="ordersFile"/>
     </logger>
 
-<!-- ========================/OrderLineControllerLogger========================================= -->
-    <appender name="orderLineFile" class="ch.qos.logback.core.FileAppender">
-        <file>logs/orderLine_log.log</file>
+
+    <!-- ========================/PizzaControllerLogger========================================= -->
+    <appender name="pizzaFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/pizza_log/pizza_log.log</file>
         <encoder>
             <pattern>%date [%thread] %-5level %logger{35} - %msg%n</pattern>
         </encoder>
-    </appender>
+        <!-- ========================/Rolling Policy========================================= -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- Logback will create following pattern log files -->
+            <fileNamePattern>logs/pizza_log/pizza_log.%d{yyyy-MM-dd_HH}.%i.log</fileNamePattern>
+            <!--Logback will retain log files for the last "365 DAYS" and delete older ones.-->
+            <maxHistory>365</maxHistory>
+            <!--Logback will keep log files whose total size does not exceed 100 megabytes.-->
+            <!--            <totalSizeCap>1MB</totalSizeCap>-->
+            <maxFileSize>10KB</maxFileSize>
+            <!--If set to true, Logback will clean up older log files when the total size exceeds the totalSizeCap.-->
+            <!--            <cleanHistoryOnOverflow>true</cleanHistoryOnOverflow>-->
 
-    <logger name="com.myapp.controller.OrderLineController.fileLogger" level="INFO">
-        <appender-ref ref="orderLineFile"/>
-    </logger>
-
-    <!-- ========================/PizzaControllerLogger========================================= -->
-    <appender name="pizzaFile" class="ch.qos.logback.core.FileAppender">
-        <file>logs/pizza_log.log</file>
-        <encoder>
-            <pattern>%date [%thread] %-5level %logger ==> %m %n</pattern>
-        </encoder>
+        </rollingPolicy>
     </appender>
 
     <logger name="com.myapp.controller.PizzaController.loggerFile" level="INFO">
         <appender-ref ref="pizzaFile"/>
+    </logger>
+
+    <!-- ========================/Others(Crust,Topping,Sides)Logger========================================= -->
+    <appender name="otherFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/other_log/other_log.log</file>
+        <encoder>
+            <pattern>%date [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+        <!-- ========================/Rolling Policy========================================= -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- Logback will create following pattern log files -->
+            <fileNamePattern>logs/other_log/other_log.%d{yyyy-MM-dd_HH}.%i.log</fileNamePattern>
+            <!--Logback will retain log files for the last "365 DAYS" and delete older ones.-->
+            <maxHistory>365</maxHistory>
+            <!--Logback will keep log files whose total size does not exceed 100 megabytes.-->
+            <!--            <totalSizeCap>1MB</totalSizeCap>-->
+            <maxFileSize>10KB</maxFileSize>
+            <!--If set to true, Logback will clean up older log files when the total size exceeds the totalSizeCap.-->
+            <!--            <cleanHistoryOnOverflow>true</cleanHistoryOnOverflow>-->
+
+        </rollingPolicy>
+    </appender>
+
+    <logger name="com.myapp.controller.PizzaController.loggerFile" level="INFO">
+        <appender-ref ref="otherFile"/>
     </logger>
 
 

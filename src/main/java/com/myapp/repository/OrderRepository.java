@@ -14,7 +14,7 @@ import java.util.List;
 @Mapper
 public interface OrderRepository {
 
-    public void createNewOrder(@Param("o") Order order );
+    public int createNewOrder(@Param("o") Order order );
 
     public Order fetchOrderDetailsById(@Param("oId") String oId);
 

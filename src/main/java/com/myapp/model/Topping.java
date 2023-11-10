@@ -22,8 +22,8 @@ public class Topping {
     private String name	;
     @NotBlank(message = "topping type is empty")
     private String type;
-    @Min(value = 0 , message = "Price can not be negative value")
+    @Min(value = 0 , message = "Price can not be a negative value")
     private Integer price;
-    @Min(value = 0 , message = "Quantity can not be negative value")
+    @Min(value = 0 , message = "Quantity can not be a negative value")
     private Integer quantity;
 }

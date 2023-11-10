@@ -20,8 +20,6 @@
         VALUES (#{o.customerId},'hold',#{o.totalAmount},NOW(),#{o.deliveryAddress})
     </insert>
 
-
-
     <select id="fetchOrderDetailsById"  resultMap="orderResult">
         SELECT * FROM orders where order_id= #{oId}
     </select>
@@ -34,7 +32,7 @@
         SELECT * FROM orders
     </select>
 
-    <update id="updateOrderDetails">
+    <update id="updateOrderDetails" >
         UPDATE orders
         <set>
             <if test="o.status !=null">status=#{o.status},</if>
@@ -44,7 +42,7 @@
         WHERE order_id= #{oId}
     </update>
 
-    <delete id="deleteOrderDetails" >
+    <delete id="deleteOrderDetails"  >
         DELETE FROM orders where order_id = #{oId}
     </delete>
 

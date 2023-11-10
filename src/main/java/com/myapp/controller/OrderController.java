@@ -2,8 +2,8 @@ package com.myapp.controller;
 
 import com.myapp.dto.GenericData;
 import com.myapp.dto.SuccessResponseDto;
+import com.myapp.exception.CustomException;
 import com.myapp.model.Order;
-import com.myapp.model.OrderLine;
 import com.myapp.service.OrderLineService;
 import com.myapp.service.OrderService;
 import jakarta.validation.Valid;
@@ -20,27 +20,36 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
+
 public class OrderController {
 
     @Autowired
     private OrderService orderService ;
     @Autowired
     private OrderLineService olService;
-    private Logger logger = LoggerFactory.getLogger("com.myapp.controller.OrderController.file") ;
+
+
+    private final Logger logger = LoggerFactory.getLogger("com.myapp.controller.OrderController.file") ;
 
     //=================================================================
 
     @PostMapping("/orders")
-    public ResponseEntity<?> createNewOrder(@RequestBody @Valid Order receivedOrder){
+    public ResponseEntity<?> createNewOrder(@Valid @RequestBody Order receivedOrder){
         //creating new order along with its associated orderLines
+        logger.info("====>Order request received with details:\n{}",receivedOrder );
+        if(receivedOrder.getOrderLines().isEmpty()){
+            logger.error("Failed to create order because no orderLines are present in received order.");
+            throw new CustomException("No orderLines present in request order object","Failed to create new Order",HttpStatus.BAD_REQUEST);
+        }
         orderService.createNewOrder(receivedOrder) ;
         Order created = orderService.fetchOrderDetailsById(receivedOrder.getOrderId());
+
+        logger.info("<====Order created successfully with orderId {} ==> {}",created.getOrderId(),created);
         SuccessResponseDto resp = new SuccessResponseDto();
         resp.setSuccess(true);
         resp.setMessage("Successfully created Order");
         resp.setData(new GenericData<Order>());
         resp.getData().getList().add(created);
-        logger.info("Order created :{}",created);
         return ResponseEntity.status(HttpStatus.OK).body(resp);
     }
 
@@ -86,23 +95,23 @@ public class OrderController {
 
     @PutMapping("/orders/{orderId}")
     public ResponseEntity<?> updateOrderDetailsById(@PathVariable("orderId")  String oId , @RequestBody @Valid Order order){
-
-        orderService.updateOrderDetails(oId,order);
+        logger.info("====>Update request received for orderId={} with new order details:\n{}",oId, order);
+        orderService.updateOrderDetails(oId, order);
         Order updated = orderService.fetchOrderDetailsById(oId);
         SuccessResponseDto resp = new SuccessResponseDto();
         resp.setSuccess(true);
         resp.setMessage("Order data updated");
         resp.setData(new GenericData<Order>());
         resp.getData().getList().add(updated);
-        logger.info("Order id={} Updated To new details :{}",updated.getOrderId(),updated);
+        logger.info("<====Order id={} successfully Updated To new details :{}", updated.getOrderId(), updated);
         return ResponseEntity.status(HttpStatus.OK).body(resp);
     }
 
     @DeleteMapping("/orders/{orderId}")
     public ResponseEntity<?> deleteOrderById(@PathVariable  String orderId){
-
+        logger.info("====>Delete request for orderId={}",orderId);
         orderService.deleteOrderDetails(orderId);
-        logger.info("Order id={} deleted",orderId);
+        logger.info("<==== Order id={} deleted successfully",orderId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

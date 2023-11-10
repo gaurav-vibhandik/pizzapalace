@@ -1,6 +1,7 @@
 package com.myapp.exception;
 
 import com.myapp.dto.ErrorResponseDto;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.boot.json.JsonParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 
 import java.util.HashMap;
@@ -26,7 +28,7 @@ public class GlobalExceptionHandler {
         });
         ErrorResponseDto fresp = new ErrorResponseDto();
         fresp.setSuccess(false);
-        fresp.setMessage("error occured while creating");
+        fresp.setMessage("error occurred while creating");
         fresp.setError(new CustomErrorWithMap(HttpStatus.BAD_REQUEST.value(),errorMap) );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(fresp);
     }
@@ -50,6 +52,30 @@ public class GlobalExceptionHandler {
         fresp.setError(new CustomError(ex.getErrorStatus().value(),ex.getMessage()));
 
         return new ResponseEntity<>(fresp,ex.getErrorStatus());
+    }
+
+//Following handler will handle jakarta.validation.ConstraintViolationException(checked exceptions not handled by spring) at Method Level when
+// @Validated is used at class level & we are validating method parameters with like @Min , @Email
+// and we are checking whole object with @Valid
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    ResponseEntity<?> handleRemainingConstraintViolationException(ConstraintViolationException e) {
+        ErrorResponseDto fresp = new ErrorResponseDto();
+        fresp.setSuccess(false);
+        fresp.setMessage("Failed due to constraint violation");
+        fresp.setError(new CustomError(HttpStatus.BAD_REQUEST.value(), e.getMessage()));
+
+        return new ResponseEntity<>(fresp, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> handleRemainingExceptions(Exception e){
+        ErrorResponseDto fresp = new ErrorResponseDto();
+        fresp.setSuccess(false);
+        fresp.setMessage(e.getMessage());
+        fresp.setError(new CustomError(HttpStatus.INTERNAL_SERVER_ERROR.value(),e.getMessage()));
+
+        return new ResponseEntity<>(fresp,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 

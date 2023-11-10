@@ -70,7 +70,7 @@
         CREATE TABLE orders(
         order_id CHAR(6) PRIMARY KEY,
         customer_id CHAR(6) NOT NULL,
-        status VARCHAR(30) DEFAULT 'CREATED',
+        status VARCHAR(30) DEFAULT 'HOLD',
         total_amount INTEGER NOT NULL,
         order_date_time TIMESTAMP NOT NULL,
         delivery_address VARCHAR(255) NOT NULL,
@@ -133,7 +133,7 @@
 
 
 
-        DROP TABLE IF EXISTS order_line;
+        DROP TABLE IF EXISTS order_line CASCADE;
         CREATE TABLE order_line(
         order_line_id CHAR(5) PRIMARY KEY,
         order_id CHAR(6) NOT NULL,
@@ -292,11 +292,11 @@
 -- ======================================================================
 -- Creating ol_topping Table(shows combination of ol+ its selected Topping)
 
-                    DROP TABLE IF EXISTS ol_topping cascade ;
-                    CREATE TABLE ol_topping(
-                    order_line_id CHAR(5) ,
-                    topping_id CHAR(5) ,
-                    CONSTRAINT compPK_olTopping PRIMARY KEY(order_line_id,topping_id),
-                    CONSTRAINT fk_olTopping_orderLineId FOREIGN KEY (order_line_id) REFERENCES order_line(order_line_id) ON UPDATE CASCADE ON DELETE CASCADE,
-                    CONSTRAINT fk_olTopping_toppingId FOREIGN KEY (topping_id) REFERENCES topping(topping_id) ON UPDATE CASCADE ON DELETE CASCADE
-                    );
+DROP TABLE IF EXISTS ol_topping cascade ;
+CREATE TABLE ol_topping(
+order_line_id CHAR(5) ,
+topping_id CHAR(5) ,
+CONSTRAINT compPK_olTopping PRIMARY KEY(order_line_id,topping_id),
+CONSTRAINT fk_olTopping_orderLineId FOREIGN KEY (order_line_id) REFERENCES order_line(order_line_id) ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT fk_olTopping_toppingId FOREIGN KEY (topping_id) REFERENCES topping(topping_id) ON UPDATE CASCADE ON DELETE CASCADE
+);

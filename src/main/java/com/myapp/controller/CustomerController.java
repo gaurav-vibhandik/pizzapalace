@@ -26,13 +26,14 @@ public class CustomerController{
 
     @PostMapping("/customers")
     public ResponseEntity createNewCustomer(@RequestBody @Valid Customer customer){
+        logger.info("New customer create request received with data = {}",customer);
         customerService.createNewCustomer(customer) ;
         SuccessResponseDto resp = new SuccessResponseDto();
         resp.setSuccess(true);
         resp.setMessage("Customer created");
         resp.setData(new GenericData<Customer>());
         resp.getData().getList().add(customer);
-        logger.info("New customer created : {}",customer);
+        logger.info("Customer entry added in db:{}",customer);
         return ResponseEntity.status(HttpStatus.CREATED).body(resp);
 
     }
@@ -64,6 +65,7 @@ public class CustomerController{
     //In PUT request whole Customer object will be sent (with none or one or more fields changed)
     public ResponseEntity updateOrderDetailsById(@PathVariable("customerId")  String cId ,
                                                  @RequestBody @Valid Customer customer){
+        logger.info("Customer update request received with data = {}",customer);
         //customer is validated by @Valid
         customerService.updateCustomerDetails(cId,customer);
         Customer updated = customerService.fetchCustomerDetailsById(cId);
@@ -72,12 +74,13 @@ public class CustomerController{
         resp.setMessage("Customer data updated");
         resp.setData(new GenericData<Customer>());
         resp.getData().getList().add(updated);
-        logger.info("Customer details updated :{}",updated);
+        logger.info("Customer details updated to new data :{}",updated);
         return ResponseEntity.status(HttpStatus.OK).body(resp);
     }
 
     @DeleteMapping("/customers/{customerId}")
     public ResponseEntity deleteCustomerDetailsById(@PathVariable("customerId")  String cId) {
+        logger.info("Customer delete request received for customerId={}",cId);
         customerService.deleteCustomerDetailsById(cId);
         logger.info("Customer data with id {} deleted",cId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
