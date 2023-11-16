@@ -1,0 +1,66 @@
+2023-11-16 12:46:02,443 INFO  c.m.controller.OrderController.file --- ====>Order request received with details:
+Order(orderId=null, customerId=CUS003, status=null, totalAmount=800, orderDateTime=null, deliveryAddress=delivery address1, orderLines=[OrderLine(orderLineId=null, orderId=null, pizzaId=ZA002, size=LARGE, quantity=3, crustId=CR02, extraCheese=true, toppingList=[], totalPrice=300), OrderLine(orderLineId=null, orderId=null, pizzaId=ZA004, size=MEDIUM, quantity=5, crustId=CR02, extraCheese=false, toppingList=[TP001 , TP002 ], totalPrice=500)])
+2023-11-16 12:46:02,877 DEBUG c.m.controller.OrderController.file --- Order created in DB with orderId=ORD028
+2023-11-16 12:46:02,878 DEBUG c.m.controller.OrderController.file --- Processing OL lines entry into database :
+2023-11-16 12:46:02,879 DEBUG c.m.controller.OrderController.file --- OrderLine request received with data : OrderLine(orderLineId=null, orderId=ORD028, pizzaId=ZA002, size=LARGE, quantity=3, crustId=CR02, extraCheese=true, toppingList=[], totalPrice=300)
+2023-11-16 12:46:02,884 DEBUG c.m.controller.OrderController.file --- orderLine entry created in DB with id=OL043
+2023-11-16 12:46:02,884 DEBUG c.m.controller.OrderController.file --- Processing ToppingList if any:
+2023-11-16 12:46:02,884 DEBUG c.m.controller.OrderController.file --- OrderLine has been created with its toppingList
+2023-11-16 12:46:02,884 DEBUG c.m.controller.OrderController.file --- OrderLine request received with data : OrderLine(orderLineId=null, orderId=ORD028, pizzaId=ZA004, size=MEDIUM, quantity=5, crustId=CR02, extraCheese=false, toppingList=[TP001 , TP002 ], totalPrice=500)
+2023-11-16 12:46:02,887 DEBUG c.m.controller.OrderController.file --- orderLine entry created in DB with id=OL044
+2023-11-16 12:46:02,887 DEBUG c.m.controller.OrderController.file --- Processing ToppingList if any:
+2023-11-16 12:46:02,920 DEBUG c.m.controller.OrderController.file --- For orderLineId=OL044 toppingList added in db
+2023-11-16 12:46:02,921 DEBUG c.m.controller.OrderController.file --- OrderLine has been created with its toppingList
+2023-11-16 12:46:02,960 INFO  c.m.controller.OrderController.file --- <====Order created successfully with orderId ORD028 ==> Order(orderId=ORD028, customerId=CUS003, status=hold, totalAmount=800, orderDateTime=2023-11-16T12:46:02.866100, deliveryAddress=delivery address1, orderLines=[OrderLine(orderLineId=OL043, orderId=ORD028, pizzaId=ZA002, size=LARGE, quantity=3, crustId=CR02, extraCheese=true, toppingList=[], totalPrice=300), OrderLine(orderLineId=OL044, orderId=ORD028, pizzaId=ZA004, size=MEDIUM, quantity=5, crustId=CR02, extraCheese=false, toppingList=[TP001, TP002], totalPrice=500)])
+2023-11-16 12:48:36,898 INFO  c.m.controller.OrderController.file --- ====>Update request received for orderId=ORD028 with new order details:
+Order(orderId=ORD028, customerId=CUS003, status=null, totalAmount=800, orderDateTime=null, deliveryAddress=delivery address1, orderLines=[OrderLine(orderLineId=null, orderId=null, pizzaId=ZA002, size=LARGE, quantity=3, crustId=CR02, extraCheese=true, toppingList=[], totalPrice=300), OrderLine(orderLineId=null, orderId=null, pizzaId=ZA004, size=MEDIUM, quantity=7, crustId=CR02, extraCheese=false, toppingList=[TP001 , TP002 ], totalPrice=700)])
+2023-11-16 12:48:36,906 DEBUG c.m.controller.OrderController.file --- orderId=ORD028 got updated in db
+2023-11-16 12:48:36,914 DEBUG c.m.controller.OrderController.file --- In Process: Deleting orderLine for given orderId=ORD028
+2023-11-16 12:48:36,914 DEBUG c.m.controller.OrderController.file --- Delete request received for orderLineId=OL043
+2023-11-16 12:48:36,916 DEBUG c.m.controller.OrderController.file --- Successfully deleted orderLineId=OL043
+2023-11-16 12:48:36,916 DEBUG c.m.controller.OrderController.file --- In Process: Deleting orderLine for given orderId=ORD028
+2023-11-16 12:48:36,916 DEBUG c.m.controller.OrderController.file --- Delete request received for orderLineId=OL044
+2023-11-16 12:48:36,918 DEBUG c.m.controller.OrderController.file --- Successfully deleted orderLineId=OL044
+2023-11-16 12:48:36,931 INFO  c.m.controller.OrderController.file --- <====Order id=ORD028 successfully Updated To new details :Order(orderId=ORD028, customerId=CUS003, status=hold, totalAmount=800, orderDateTime=2023-11-16T12:46:02.866100, deliveryAddress=delivery address1, orderLines=[])
+2023-11-16 12:48:48,759 INFO  c.m.controller.OrderController.file --- ====>Update request received for orderId=ORD028 with new order details:
+Order(orderId=ORD028, customerId=CUS003, status=null, totalAmount=800, orderDateTime=null, deliveryAddress=delivery address 2, orderLines=[OrderLine(orderLineId=null, orderId=null, pizzaId=ZA002, size=LARGE, quantity=3, crustId=CR02, extraCheese=true, toppingList=[], totalPrice=300), OrderLine(orderLineId=null, orderId=null, pizzaId=ZA004, size=MEDIUM, quantity=7, crustId=CR02, extraCheese=false, toppingList=[TP001 , TP002 ], totalPrice=700)])
+2023-11-16 12:48:48,765 DEBUG c.m.controller.OrderController.file --- orderId=ORD028 got updated in db
+2023-11-16 12:48:48,785 INFO  c.m.controller.OrderController.file --- <====Order id=ORD028 successfully Updated To new details :Order(orderId=ORD028, customerId=CUS003, status=hold, totalAmount=800, orderDateTime=2023-11-16T12:46:02.866100, deliveryAddress=delivery address 2, orderLines=[])
+2023-11-16 12:49:17,792 INFO  c.m.controller.OrderController.file --- ====>Update request received for orderId=ORD0282 with new order details:
+Order(orderId=ORD028, customerId=CUS003, status=null, totalAmount=800, orderDateTime=null, deliveryAddress=delivery address 2, orderLines=[OrderLine(orderLineId=null, orderId=null, pizzaId=ZA002, size=LARGE, quantity=3, crustId=CR02, extraCheese=true, toppingList=[], totalPrice=300), OrderLine(orderLineId=null, orderId=null, pizzaId=ZA004, size=MEDIUM, quantity=7, crustId=CR02, extraCheese=false, toppingList=[TP001 , TP002 ], totalPrice=700)])
+2023-11-16 12:49:17,795 ERROR c.m.controller.OrderController.file --- Failed to update invalid orderId=ORD0282
+2023-11-16 12:51:36,712 INFO  c.m.controller.OrderController.file --- ====>Update request received for orderId=ORD028 with new order details:
+Order(orderId=ORD028, customerId=CUS003, status=null, totalAmount=800, orderDateTime=null, deliveryAddress=delivery address 3, orderLines=[OrderLine(orderLineId=null, orderId=null, pizzaId=ZA002, size=LARGE, quantity=3, crustId=CR02, extraCheese=true, toppingList=[], totalPrice=300), OrderLine(orderLineId=null, orderId=null, pizzaId=ZA004, size=MEDIUM, quantity=7, crustId=CR02, extraCheese=false, toppingList=[TP001 , TP002 ], totalPrice=700)])
+2023-11-16 12:51:37,279 DEBUG c.m.controller.OrderController.file --- orderId=ORD028 got updated in db
+2023-11-16 12:51:37,356 INFO  c.m.controller.OrderController.file --- <====Order id=ORD028 successfully Updated To new details :Order(orderId=ORD028, customerId=CUS003, status=hold, totalAmount=800, orderDateTime=2023-11-16T12:46:02.866100, deliveryAddress=delivery address 3, orderLines=[])
+2023-11-16 12:58:01,315 INFO  c.m.controller.OrderController.file --- ====>Update request received for orderId=ORD028 with new order details:
+Order(orderId=ORD028, customerId=CUS003, status=hold, totalAmount=12000, orderDateTime=2023-11-16T12:46:02, deliveryAddress=delivery address 4, orderLines=[OrderLine(orderLineId=OL043, orderId=ORD028, pizzaId=ZA002, size=LARGE, quantity=3, crustId=CR02, extraCheese=true, toppingList=[], totalPrice=300), OrderLine(orderLineId=OL044, orderId=ORD028, pizzaId=ZA004, size=MEDIUM, quantity=5, crustId=CR02, extraCheese=false, toppingList=[TP001, TP002], totalPrice=500)])
+2023-11-16 12:58:01,870 DEBUG c.m.controller.OrderController.file --- orderId=ORD028 got updated in db
+2023-11-16 12:58:01,913 INFO  c.m.controller.OrderController.file --- <====Order id=ORD028 successfully Updated To new details :Order(orderId=ORD028, customerId=CUS003, status=hold, totalAmount=12000, orderDateTime=2023-11-16T12:46:02.866100, deliveryAddress=delivery address 4, orderLines=[])
+2023-11-16 12:58:33,872 INFO  c.m.controller.OrderController.file --- ====>Delete request for orderId=ORD028
+2023-11-16 12:58:33,880 INFO  c.m.controller.OrderController.file --- <==== Order id=ORD028 deleted successfully
+2023-11-16 12:58:52,607 INFO  c.m.controller.OrderController.file --- ====>Order request received with details:
+Order(orderId=null, customerId=CUS003, status=null, totalAmount=800, orderDateTime=null, deliveryAddress=delivery address1, orderLines=[OrderLine(orderLineId=null, orderId=null, pizzaId=ZA002, size=LARGE, quantity=3, crustId=CR02, extraCheese=true, toppingList=[], totalPrice=300), OrderLine(orderLineId=null, orderId=null, pizzaId=ZA004, size=MEDIUM, quantity=5, crustId=CR02, extraCheese=false, toppingList=[TP001 , TP002 ], totalPrice=500)])
+2023-11-16 12:58:52,615 DEBUG c.m.controller.OrderController.file --- Order created in DB with orderId=ORD029
+2023-11-16 12:58:52,615 DEBUG c.m.controller.OrderController.file --- Processing OL lines entry into database :
+2023-11-16 12:58:52,615 DEBUG c.m.controller.OrderController.file --- OrderLine request received with data : OrderLine(orderLineId=null, orderId=ORD029, pizzaId=ZA002, size=LARGE, quantity=3, crustId=CR02, extraCheese=true, toppingList=[], totalPrice=300)
+2023-11-16 12:58:52,619 DEBUG c.m.controller.OrderController.file --- orderLine entry created in DB with id=OL045
+2023-11-16 12:58:52,619 DEBUG c.m.controller.OrderController.file --- Processing ToppingList if any:
+2023-11-16 12:58:52,619 DEBUG c.m.controller.OrderController.file --- OrderLine has been created with its toppingList
+2023-11-16 12:58:52,619 DEBUG c.m.controller.OrderController.file --- OrderLine request received with data : OrderLine(orderLineId=null, orderId=ORD029, pizzaId=ZA004, size=MEDIUM, quantity=5, crustId=CR02, extraCheese=false, toppingList=[TP001 , TP002 ], totalPrice=500)
+2023-11-16 12:58:52,622 DEBUG c.m.controller.OrderController.file --- orderLine entry created in DB with id=OL046
+2023-11-16 12:58:52,622 DEBUG c.m.controller.OrderController.file --- Processing ToppingList if any:
+2023-11-16 12:58:52,626 DEBUG c.m.controller.OrderController.file --- For orderLineId=OL046 toppingList added in db
+2023-11-16 12:58:52,627 DEBUG c.m.controller.OrderController.file --- OrderLine has been created with its toppingList
+2023-11-16 12:58:52,642 INFO  c.m.controller.OrderController.file --- <====Order created successfully with orderId ORD029 ==> Order(orderId=ORD029, customerId=CUS003, status=hold, totalAmount=800, orderDateTime=2023-11-16T12:58:52.610342, deliveryAddress=delivery address1, orderLines=[OrderLine(orderLineId=OL045, orderId=ORD029, pizzaId=ZA002, size=LARGE, quantity=3, crustId=CR02, extraCheese=true, toppingList=[], totalPrice=300), OrderLine(orderLineId=OL046, orderId=ORD029, pizzaId=ZA004, size=MEDIUM, quantity=5, crustId=CR02, extraCheese=false, toppingList=[TP001, TP002], totalPrice=500)])
+2023-11-16 12:59:45,617 INFO  c.m.controller.OrderController.file --- ====>Update request received for orderId=ORD029 with new order details:
+Order(orderId=ORD029, customerId=CUS003, status=hold, totalAmount=800, orderDateTime=2023-11-16T12:58:52, deliveryAddress=delivery address 29, orderLines=[OrderLine(orderLineId=OL045, orderId=ORD029, pizzaId=ZA002, size=LARGE, quantity=3, crustId=CR02, extraCheese=true, toppingList=[], totalPrice=300), OrderLine(orderLineId=OL046, orderId=ORD029, pizzaId=ZA004, size=MEDIUM, quantity=5, crustId=CR02, extraCheese=false, toppingList=[TP001, TP002], totalPrice=500)])
+2023-11-16 12:59:45,621 DEBUG c.m.controller.OrderController.file --- orderId=ORD029 got updated in db
+2023-11-16 12:59:45,626 DEBUG c.m.controller.OrderController.file --- In Process: Updating orderLine for given orderId=ORD029
+2023-11-16 12:59:45,626 DEBUG c.m.controller.OrderController.file --- In process:Updating orderLineId=OL045
+2023-11-16 12:59:45,629 DEBUG c.m.controller.OrderController.file --- Finished:Updated orderLineId=OL045
+2023-11-16 12:59:45,629 DEBUG c.m.controller.OrderController.file --- In Process: Updating orderLine for given orderId=ORD029
+2023-11-16 12:59:45,629 DEBUG c.m.controller.OrderController.file --- In process:Updating orderLineId=OL046
+2023-11-16 12:59:45,635 DEBUG c.m.controller.OrderController.file --- For orderLineId=OL046 toppingList added in db
+2023-11-16 12:59:45,636 DEBUG c.m.controller.OrderController.file --- Finished:Updated orderLineId=OL046
+2023-11-16 12:59:45,655 INFO  c.m.controller.OrderController.file --- <====Order id=ORD029 successfully Updated To new details :Order(orderId=ORD029, customerId=CUS003, status=hold, totalAmount=800, orderDateTime=2023-11-16T12:58:52.610342, deliveryAddress=delivery address 29, orderLines=[OrderLine(orderLineId=OL045, orderId=ORD029, pizzaId=ZA002, size=LARGE, quantity=3, crustId=CR02, extraCheese=true, toppingList=[], totalPrice=300), OrderLine(orderLineId=OL046, orderId=ORD029, pizzaId=ZA004, size=MEDIUM, quantity=5, crustId=CR02, extraCheese=false, toppingList=[TP001, TP002], totalPrice=500)])
