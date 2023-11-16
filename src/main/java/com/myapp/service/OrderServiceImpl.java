@@ -3,6 +3,7 @@ package com.myapp.service;
 import com.myapp.exception.CustomException;
 import com.myapp.model.Order;
 import com.myapp.model.OrderLine;
+import com.myapp.repository.CustomerRepository;
 import com.myapp.repository.OrderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,9 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepo ;
     @Autowired
     private OrderLineService olService ;
+
+    @Autowired
+    private CustomerRepository customerRepo ;
 
     private final Logger logger = LoggerFactory.getLogger("com.myapp.controller.OrderController.file") ;
 
@@ -54,7 +58,7 @@ public class OrderServiceImpl implements OrderService {
         try {
             Order fetched = orderRepo.fetchOrderDetailsById(oId);
             if (fetched == null) {
-                throw new CustomException("Invalid orderId", "Failed to fetch order data", HttpStatus.NOT_FOUND);
+                throw new CustomException("Invalid orderId", "Failed to fetch order data", HttpStatus.BAD_REQUEST);
             }
             List<OrderLine> orderLines = olService.fetchOrderLinesByOrderId(oId);
             fetched.setOrderLines(orderLines);
@@ -67,10 +71,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> fetchOrderDetailsByCustomerId(String customerId) {
         try{
-            List<Order> fetchedOrders = orderRepo.fetchOrderDetailsByCustomerId(customerId);
-            if(fetchedOrders.isEmpty()){
-                System.out.println("\n\n\n===========> fetchedOrders is Empty\n\n\n");
+            //validating customerId exists or not
+            String validatedCustomerId = customerRepo.doesCustomerIdExist(customerId);
+            if(validatedCustomerId == null ){
+                //customerId does not exists
+                throw new CustomException("Invalid customerId","Failed to fetch order data for given customer id", HttpStatus.BAD_REQUEST) ;
             }
+            List<Order> fetchedOrders = orderRepo.fetchOrderDetailsByCustomerId(validatedCustomerId);
             return fetchedOrders ;
         }catch (DataAccessException e){
             throw new CustomException(e.getCause().getMessage(),"Failed to fetch order data for given customer id", HttpStatus.INTERNAL_SERVER_ERROR) ;
@@ -79,13 +86,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> fetchAllOrderDetails() {
-        List<Order> orderList = orderRepo.fetchAllOrderDetails();
 
-        if(orderList == null){
-            throw new CustomException("Failed to fetch all orders data" , "Failed to fetch all orders data" ,
-                    HttpStatus.INTERNAL_SERVER_ERROR);
+        try{
+            List<Order> orderList = orderRepo.fetchAllOrderDetails();
+            return orderList;
+        }catch (DataAccessException e){
+            throw new CustomException(e.getCause().getMessage(),"Failed to fetch all order data", HttpStatus.INTERNAL_SERVER_ERROR) ;
         }
-        return orderList ;
     }
 
 
@@ -129,7 +136,7 @@ public class OrderServiceImpl implements OrderService {
             logger.error("Failed to update orderId={} due to error:\n{}",oId,e.getCause().getMessage());
             throw new CustomException(e.getCause().getMessage(),"Failed to delete order", HttpStatus.NOT_FOUND) ;
         }
-        Order updatedOrder = orderRepo.fetchOrderDetailsById(receivedOrder.getOrderId());
+        Order updatedOrder = fetchOrderDetailsById(receivedOrder.getOrderId());
         return updatedOrder ;
 
     }

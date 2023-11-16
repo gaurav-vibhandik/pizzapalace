@@ -29,8 +29,6 @@ public class ToppingController {
     public ResponseEntity<?> createNewTopping(@RequestBody @Valid Topping receivedTopping){
 
         tpService.createTopping(receivedTopping);
-        System.out.println("============ \n\n\n\n");
-        System.out.println(receivedTopping.toString());
         SuccessResponseDto resp = new SuccessResponseDto();
         resp.setSuccess(true);
         resp.setMessage("Successfully created Topping");

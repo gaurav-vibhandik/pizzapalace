@@ -34,7 +34,7 @@
         SELECT * FROM order_line
     </select>
 
-    <update id="updateOrderLine">
+    <!--<update id="updateOrderLine">
         UPDATE order_line
         SET
             pizza_id=#{ol.pizzaId},
@@ -44,6 +44,19 @@
             extra_cheese=#{ol.extraCheese},
             total_price=#{ol.totalPrice}
         where order_line_id = #{ol.orderLineId}
+    </update>-->
+
+    <update id="updateOrderLine" parameterType="OrderLine">
+        UPDATE order_line
+        <set>
+            <if test="ol.pizzaId != null">pizza_id=#{ol.pizzaId},</if>
+            <if test="ol.size != null">size=#{ol.size},</if>
+            <if test="ol.quantity != null">quantity=#{ol.quantity},</if>
+            <if test="ol.crustId != null">crust_id=#{ol.crustId},</if>
+            <if test="ol.extraCheese != null">extra_cheese=#{ol.extraCheese},</if>
+            <if test="ol.totalPrice != null">total_price=#{ol.totalPrice},</if>
+        </set>
+        WHERE order_line_id = #{ol.orderLineId}
     </update>
 
     <delete id="deleteOrderLine">

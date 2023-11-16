@@ -1,1 +1,2 @@
-/logs/orderLine_log.log
+/logs/*
+/target/*

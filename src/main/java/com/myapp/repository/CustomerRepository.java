@@ -19,5 +19,8 @@ public interface CustomerRepository {
 
     public int updateCustomerDetails(@Param("cId") String cId,@Param("c")Customer c);
 
-    int deleteCustomerDetailsById(@Param("cId") String cId);
+    public int deleteCustomerDetailsById(@Param("cId") String cId);
+
+    public String doesCustomerIdExist(@Param("customerId") String customerId);
+
 }
