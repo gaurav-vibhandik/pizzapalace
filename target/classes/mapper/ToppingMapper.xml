@@ -25,15 +25,17 @@
         VALUES (#{tp.name},#{tp.type},#{tp.price},#{tp.quantity})
     </insert>
 
-    <update id="updateTopping">
+    <update id="updateTopping" parameterType="Topping">
         UPDATE topping
-        SET
-        name = #{tp.name},
-        type=#{tp.type},
-        price=#{tp.price},
-        quantity=#{tp.quantity}
-        where topping_id=#{tpId}
+        <set>
+            <if test="tp.name != null">name=#{tp.name},</if>
+            <if test="tp.type != null">type=#{tp.type},</if>
+            <if test="tp.price != null">price=#{tp.price},</if>
+            <if test="tp.quantity != null">quantity=#{tp.quantity},</if>
+        </set>
+        WHERE topping_id=#{tpId}
     </update>
+
 
     <delete id="deleteTopping" >
         DELETE FROM topping  where topping_id=#{tpId}

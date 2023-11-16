@@ -43,4 +43,8 @@
         DELETE FROM customer WHERE customer_id = #{cId}
     </delete>
 
+    <select id="doesCustomerIdExist"  resultType="String">
+        SELECT customer_id FROM customer where customer_id= #{customerId}
+    </select>
+
 </mapper>

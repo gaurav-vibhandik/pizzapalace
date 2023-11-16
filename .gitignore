@@ -1,1 +1,3 @@
-/logs/orderLine_log.log
+/logs/*
+/target/classes/com/myapp/controller/DemoTestController.class
+/target/test-classes/com/myapp/PizzapalaceApplicationTests.class
