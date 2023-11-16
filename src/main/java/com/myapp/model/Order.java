@@ -2,10 +2,7 @@ package com.myapp.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
@@ -31,9 +28,9 @@ public class Order {
     private int totalAmount;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss" )
     private LocalDateTime orderDateTime;
-    @NotNull(message = "delivery address must be mentioned")
+    @NotBlank(message = "delivery address must be mentioned")
     private String deliveryAddress;
-    @NotNull(message = "In given order ,OrderLines are not present")
+    @NotEmpty(message = "In given order ,OrderLines are not present")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<OrderLine> orderLines = new ArrayList<>();
 

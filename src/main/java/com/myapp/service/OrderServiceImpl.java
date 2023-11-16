@@ -69,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
         try{
             List<Order> fetchedOrders = orderRepo.fetchOrderDetailsByCustomerId(customerId);
             if(fetchedOrders.isEmpty()){
-                throw new CustomException("invalid customer id","here",HttpStatus.BAD_REQUEST) ;
+                System.out.println("\n\n\n===========> fetchedOrders is Empty\n\n\n");
             }
             return fetchedOrders ;
         }catch (DataAccessException e){
